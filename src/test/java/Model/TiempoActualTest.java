@@ -7,34 +7,34 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class PrediccionTiempoTest {
+public class TiempoActualTest { //Poner varias historias??
 
     @Rule
     ExpectedException thrown = ExpectedException.none();
 
     @Test
-    void getPrediccionTiempoCiudadValida() {
+    void getTiempoActualCiudadValida() {
         PanelBusqueda controller = new PanelBusqueda();
-        Assert.assertNotNull(controller.getPrediccionCiudad("Valencia"));
+        Assert.assertNotNull(controller.getTiempoCiudad("Valencia"));
     }
 
     @Test
-    void getPrediccionTiempoNoValida() {
+    void getTiempoActualCiudadNoValida() {
         PanelBusqueda controller = new PanelBusqueda();
         thrown.expect(InvalidArgumentException.class);
-        controller.getPrediccionCiudad("Mordor");
+        controller.getTiempoCiudad("Mordor");
     }
 
     @Test
-    void getPrediccionTiempoCoordenadasValidas() {
+    void getTiempoActualCoordenadasValidas() {
         PanelBusqueda controller = new PanelBusqueda();
-        Assert.assertNotNull(controller.getPrediccionCoordenadas(39.9924751, -0.067382));
+        Assert.assertNotNull(controller.getTiempoCoordenadas(39.9924751, -0.067382));
     }
 
     @Test
-    void getPrediccionTiempoCoordenadasNoValidas() {
+    void getTiempoActualCoordenadasNoValidas() {
         PanelBusqueda controller = new PanelBusqueda();
         thrown.expect(InvalidArgumentException.class);
-        controller.getPrediccionCoordenadas(1111132.222222, -1021313.8388383); //Cambiar
+        controller.getTiempoCoordenadas(1111132.222222, -1021313.8388383); //Cambiar
     }
 }

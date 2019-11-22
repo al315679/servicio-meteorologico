@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface IServicioTiempo {
 
-    public DatosTiempo getTiepoCiudad(String nombre);
+    DatosTiempo getTiempoCiudad(String nombre);
 
-    public DatosTiempo getTiempoCoordenadas(double longitud, double latitud);
+    DatosTiempo getTiempoCoordenadas(double longitud, double latitud);
 
-    public List<DatosTiempo> getPrediccionCiudad(String nombre);
+    List<DatosTiempo> getPrediccionCiudad(String nombre);
 
-    public List<DatosTiempo> getPrediccionCoordenadas(double longitud, double latitud);
+    List<DatosTiempo> getPrediccionCoordenadas(double longitud, double latitud);
 
 
 }

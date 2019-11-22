@@ -18,7 +18,7 @@ public class PanelBusqueda {
     }
 
 
-    public DatosTiempo getTiepoCiudad(String nombre){
+    public DatosTiempo getTiempoCiudad(String nombre) {
         throw new UnsupportedOperationException("Método no implementado");
     }
 
