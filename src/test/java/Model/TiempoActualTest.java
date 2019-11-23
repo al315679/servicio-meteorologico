@@ -6,8 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class TiempoActualTest { //Añadir nuevas historias
-
+public class TiempoActualTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -34,6 +33,6 @@ public class TiempoActualTest { //Añadir nuevas historias
     public void getTiempoActualCoordenadasNoValidas() {
         PanelBusqueda controller = new PanelBusqueda();
         thrown.expect(IllegalArgumentException.class);
-        controller.getTiempoCoordenadas(1111132.222222, -1021313.8388383); //Cambiar
+        controller.getTiempoCoordenadas(1111132.222222, -1021313.8388383);
     }
 }

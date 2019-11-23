@@ -12,7 +12,7 @@ public class PrediccionTiempoTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void getPrediccionTiempoCiudadValidaSuc() {
+    public void getPrediccionTiempoCiudadValida() {
         PanelBusqueda controller = new PanelBusqueda();
         Assert.assertNotNull(controller.getPrediccionCiudad("Valencia"));
     }
@@ -25,7 +25,7 @@ public class PrediccionTiempoTest {
     }
 
     @Test
-    public void getPrediccionTiempoCoordenadasValidasSuc() {
+    public void getPrediccionTiempoCoordenadasValidas() {
         PanelBusqueda controller = new PanelBusqueda();
         Assert.assertNotNull(controller.getPrediccionCoordenadas(39.9924751, -0.067382));
     }
@@ -34,6 +34,6 @@ public class PrediccionTiempoTest {
     public void getPrediccionTiempoCoordenadasNoValidas() {
         PanelBusqueda controller = new PanelBusqueda();
         thrown.expect(IllegalArgumentException.class);
-        controller.getPrediccionCoordenadas(1111132.222222, -1021313.8388383); //Cambiar
+        controller.getPrediccionCoordenadas(1111132.222222, -1021313.8388383);
     }
 }

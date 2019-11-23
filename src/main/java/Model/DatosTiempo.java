@@ -25,8 +25,6 @@ public class DatosTiempo {
         this.viento = viento;
         this.presion = new SimpleDoubleProperty(presion);
         this.humedad = new SimpleDoubleProperty(humedad);
-
-
     }
 
     public LocalDateTime getFecha() {
