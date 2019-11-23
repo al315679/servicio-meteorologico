@@ -1,7 +1,6 @@
 package Model;
 
 import View.PanelBusqueda;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,31 +9,31 @@ import org.junit.rules.ExpectedException;
 public class PrediccionTiempoTest {
 
     @Rule
-    ExpectedException thrown = ExpectedException.none();
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    void getPrediccionTiempoCiudadValida() {
+    public void getPrediccionTiempoCiudadValidaSuc() {
         PanelBusqueda controller = new PanelBusqueda();
         Assert.assertNotNull(controller.getPrediccionCiudad("Valencia"));
     }
 
     @Test
-    void getPrediccionTiempoNoValida() {
+    public void getPrediccionTiempoNoValida() {
         PanelBusqueda controller = new PanelBusqueda();
-        thrown.expect(InvalidArgumentException.class);
+        thrown.expect(IllegalArgumentException.class);
         controller.getPrediccionCiudad("Mordor");
     }
 
     @Test
-    void getPrediccionTiempoCoordenadasValidas() {
+    public void getPrediccionTiempoCoordenadasValidasSuc() {
         PanelBusqueda controller = new PanelBusqueda();
         Assert.assertNotNull(controller.getPrediccionCoordenadas(39.9924751, -0.067382));
     }
 
     @Test
-    void getPrediccionTiempoCoordenadasNoValidas() {
+    public void getPrediccionTiempoCoordenadasNoValidas() {
         PanelBusqueda controller = new PanelBusqueda();
-        thrown.expect(InvalidArgumentException.class);
+        thrown.expect(IllegalArgumentException.class);
         controller.getPrediccionCoordenadas(1111132.222222, -1021313.8388383); //Cambiar
     }
 }
