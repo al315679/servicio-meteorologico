@@ -1,6 +1,5 @@
 package Model;
 
-import View.PanelBusqueda;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
