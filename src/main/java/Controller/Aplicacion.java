@@ -48,9 +48,6 @@ public class Aplicacion implements Serializable {
             }
         }
 
-
-
-
     }
 
     public void getTiempoCoordenadas() throws IOException {
@@ -58,12 +55,12 @@ public class Aplicacion implements Serializable {
         Scanner sc=new Scanner(System.in);
 
         System.out.print("Introduzca una longitud: ");
-        String longitud=sc.next();
+        double longitud = Double.parseDouble(sc.next());
 
         System.out.print("Introduzca una latitud: ");
-        String latitud=sc.next();
+        double latitud = Double.parseDouble(sc.next());
 
-        String coordenadas = latitud+", "+longitud;
+        String coordenadas = Double.toString(latitud)+", "+Double.toString(longitud);
 
         System.out.println("¿Qué tipo de información quieres: ");
         System.out.println("1- Básica ");
@@ -72,7 +69,7 @@ public class Aplicacion implements Serializable {
         System.out.print("Elige una opción: ");
         int opcion = sc.nextInt();
 
-        Data tiempo = servicio.getTiempoCoordenadas();
+        Data tiempo = servicio.getTiempoCoordenadas(latitud, longitud);
 
         if(tiempo != null){
             baseDatos.añadirTiempoCoordenadas(coordenadas, tiempo);
@@ -83,8 +80,6 @@ public class Aplicacion implements Serializable {
                 System.out.println(tiempo.informacionDetallada());
             }
         }
-
-
 
     }
 
@@ -100,7 +95,7 @@ public class Aplicacion implements Serializable {
 
         if(prediccion != null){
             baseDatos.añadirPrediccionCiudad(ciudad, prediccion);
-            System.out.println("Weather prediccion " + prediccion.toString());
+            System.out.println("Weather prediccion " + prediccion.getInformacion());
         }
 
 
@@ -112,14 +107,14 @@ public class Aplicacion implements Serializable {
         Scanner sc=new Scanner(System.in);
 
         System.out.print("Introduzca una longitud: ");
-        String longitud=sc.next();
+        double longitud = Double.parseDouble(sc.next());
 
         System.out.print("Introduzca una latitud: ");
-        String latitud=sc.next();
+        double latitud = Double.parseDouble(sc.next());
 
-        String coordenadas = latitud+", "+longitud;
+        String coordenadas = Double.toString(latitud)+", "+Double.toString(longitud);
 
-        Prediction prediccion = servicio.getPrediccionCoordenadas();
+        Prediction prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
         baseDatos.añadirPrediccionCoordenadas(coordenadas, prediccion);
 
 
@@ -128,18 +123,42 @@ public class Aplicacion implements Serializable {
     }
 
     public void getFavoritos(){
-       TreeSet<String> favoritos =  baseDatos.getCiudadesFavoritas();
+       TreeSet<String> ciudades =  baseDatos.getCiudadesFavoritas();
 
-       if(favoritos.isEmpty()){
-           System.out.println("No tienes lugares favoritos");
-       }else{
-           for(String lugar : favoritos){
-               System.out.println(lugar);
+
+        System.out.println("---------------CIUDADES---------------");
+
+
+        if(ciudades.isEmpty()){
+           System.out.println("No tienes ciudades favoritas");
+        }else{
+           for(String ciudad : ciudades){
+               System.out.println(ciudad);
            }
-       }
+        }
+
+        System.out.println("");
+
+
+        TreeSet<String> coordenadas =  baseDatos.getCiudadesFavoritas();
+
+
+        System.out.println("---------------COORDENADAS---------------");
+
+
+        if(coordenadas.isEmpty()){
+            System.out.println("No tienes coordenadas favoritas");
+        }else{
+            for(String coordenada : coordenadas){
+                System.out.println(coordenada);
+            }
+        }
+
+        System.out.println("");
+
     }
 
-    public void añadirFavorito(){
+    public void añadirCiudadFavorita(){
 
         Scanner sc=new Scanner(System.in);
 
@@ -160,7 +179,7 @@ public class Aplicacion implements Serializable {
         }
     }
 
-    public void borrarFavorito(){
+    public void borrarCiudadFavorita(){
 
         Scanner sc=new Scanner(System.in);
 
@@ -180,6 +199,61 @@ public class Aplicacion implements Serializable {
         }else{
 
             System.out.println(ciudad+" no existe en favoritos");
+
+        }
+    }
+
+    public void añadirCoordenadaFavorita(){
+
+        Scanner sc=new Scanner(System.in);
+
+        System.out.print("Introduzca una latitud: ");
+        String latitud=sc.next();
+
+        System.out.print("Introduzca una longitud: ");
+        String longitud=sc.next();
+
+        String coordenadas = latitud+", "+longitud;
+
+        if(baseDatos.getCoordenadasFavoritas().contains(coordenadas)){
+            System.out.println(coordenadas+" ya existe en favoritos");
+        }else{
+
+            boolean añadir =baseDatos.añadirCoordenadasFavoritas(coordenadas);
+
+            if(añadir){
+                System.out.println("Se ha añadido "+coordenadas+" a favoritos");
+            }else {
+                System.out.println("ERRROR. No se ha podidio añadir "+coordenadas+" a favoritos");
+            }
+        }
+    }
+
+    public void borrarCoordenadaFavorita(){
+
+        Scanner sc=new Scanner(System.in);
+
+        System.out.print("Introduzca una latitud: ");
+        String latitud=sc.next();
+
+        System.out.print("Introduzca una longitud: ");
+        String longitud=sc.next();
+
+        String coordenadas = latitud+", "+longitud;
+
+        if(baseDatos.getCoordenadasFavoritas().contains(coordenadas)){
+
+            boolean borrar =baseDatos.borrarCoordenadasFavoritas(coordenadas);
+
+            if(borrar){
+                System.out.println("Se ha borrado "+coordenadas+" de favoritos");
+            }else {
+                System.out.println("ERRROR. No se ha podidio borrar "+coordenadas+" de favoritos");
+            }
+
+        }else{
+
+            System.out.println(coordenadas+" no existe en favoritos");
 
         }
     }
@@ -210,6 +284,43 @@ public class Aplicacion implements Serializable {
             for(String lugar : favoritos){
                 System.out.println(lugar);
                 servicio.getPrediccionCiudad(lugar);
+            }
+        }else{
+            System.out.println("No tienes lugares favoritos");
+
+        }
+
+    }
+
+
+    public void getTiempoCoordenadasFavoritas() throws IOException {
+
+        TreeSet<String> favoritos =  baseDatos.getCoordenadasFavoritas();
+
+
+        if(!favoritos.isEmpty()){
+            for(String lugar : favoritos){
+                String [] vector = lugar.split(",");
+                System.out.println(lugar);
+                servicio.getTiempoCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1]));
+            }
+        }else{
+            System.out.println("No tienes lugares favoritos");
+
+        }
+
+    }
+
+    public void getPrediccionCoordenadasFavoritas() throws IOException {
+
+        TreeSet<String> favoritos =  baseDatos.getCoordenadasFavoritas();
+
+
+        if(!favoritos.isEmpty()){
+            for(String lugar : favoritos){
+                String [] vector = lugar.split(",");
+                System.out.println(lugar);
+                servicio.getPrediccionCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1]));
             }
         }else{
             System.out.println("No tienes lugares favoritos");

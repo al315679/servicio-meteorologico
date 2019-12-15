@@ -68,7 +68,7 @@ public class Principal implements Serializable{
         Scanner sc=new Scanner(System.in);
         int opcion=1;
 
-        while(opcion<=5){
+        while(opcion<=9){
             System.out.println("Favoritos");
             mostrarMensajeFavoritos();
             System.out.println("Escoge una opción: ");
@@ -79,16 +79,28 @@ public class Principal implements Serializable{
                     bd.getFavoritos();
                     break;
                 case 2:
-                    bd.añadirFavorito();
+                    bd.añadirCiudadFavorita();
                     break;
                 case 3:
-                    bd.borrarFavorito();
+                    bd.borrarCiudadFavorita();
                     break;
                 case 4:
-                    bd.getTiempoCiudadesFavoritas();
+                    bd.añadirCoordenadaFavorita();
                     break;
                 case 5:
+                    bd.borrarCoordenadaFavorita();
+                    break;
+                case 6:
+                    bd.getTiempoCiudadesFavoritas();
+                    break;
+                case 7:
                     bd.getPrediccionCiudadesFavoritas();
+                    break;
+                case 8:
+                    bd.getTiempoCoordenadasFavoritas();
+                    break;
+                case 9:
+                    bd.getPrediccionCoordenadasFavoritas();
                     break;
                 default:
                     Menu();
@@ -100,11 +112,15 @@ public class Principal implements Serializable{
     private static void mostrarMensajeFavoritos()
     {
         System.out.println("1.  Lista favoritos.");
-        System.out.println("2.  Añadir favoritos.");
-        System.out.println("3.  Eliminar favoritos.");
-        System.out.println("4.  Consultar tiempo actual de lugares favoritos.");
-        System.out.println("5.  Consultar predicción de lugares favoritos");
-        System.out.println("6.  Menú principal.");
+        System.out.println("2.  Añadir ciudad a favoritos.");
+        System.out.println("3.  Eliminar ciudad de favoritos.");
+        System.out.println("4.  Añadir coordenada a favoritos.");
+        System.out.println("5.  Eliminar coordenada de favoritos.");
+        System.out.println("6.  Consultar tiempo actual de lugares favoritos.");
+        System.out.println("7.  Consultar predicción de lugares favoritos");
+        System.out.println("8.  Consultar tiempo actual de lugares favoritos.");
+        System.out.println("9.  Consultar predicción de lugares favoritos");
+        System.out.println("10. Menú principal.");
     }
 
     private void Cargar()

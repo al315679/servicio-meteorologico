@@ -167,18 +167,35 @@ public class List implements Serializable
         return this;
     }
 
+
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("List{");
-        sb.append("dt=").append(dt);
-        sb.append(", main=").append(main);
-        sb.append(", weather=").append(weather);
-        sb.append(", clouds=").append(clouds);
-        sb.append(", wind=").append(wind);
-        sb.append(", snow=").append(snow);
-        sb.append(", sys=").append(sys);
-        sb.append(", dtTxt='").append(dtTxt).append('\'');
-        sb.append('}');
+        final StringBuilder sb = new StringBuilder();
+        //sb.append("dt=").append(dt);
+        sb.append("Fecha predicción: ").append(dtTxt).append('\n');
+
+        sb.append("Temperatura: ").append(main.getTemp()).append(" ºC").append('\n');
+        sb.append("Temperatura mínima: ").append(main.getTempMin()).append(" ºC").append('\n');
+        sb.append("Temperatura máxima: ").append(main.getTempMax()).append(" ºC").append('\n');
+        sb.append("Humedad: ").append(main.getHumidity()).append("%").append('\n');
+        sb.append("Presión atmosférica: ").append(main.getPressure()).append(" hpa").append('\n');
+        sb.append("Presión a nivel del mar: ").append(main.getSeaLevel()).append(" hpa").append('\n');
+        sb.append("Presión a nivel del suelo: ").append(main.getGrndLevel()).append(" hpa").append('\n');
+
+        sb.append("Tiempo: ").append(weather);
+
+        sb.append("Lluvias: ").append(clouds.getAll()).append('%').append('\n');
+
+        sb.append("Viento ").append('\n');
+        sb.append('\t').append("Velocidad: ").append(wind.getSpeed()).append(" m/s").append('\n');
+        sb.append('\t').append("Grados: ").append(wind.getDeg()).append('\n');
+
+        //sb.append("Nieve: ").append(snow.get3h()).append('\n');
+
+        sb.append("___________________________________________________________________________________________");
+
+        sb.append('\n');
         return sb.toString();
     }
 }

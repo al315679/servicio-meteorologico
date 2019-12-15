@@ -113,6 +113,20 @@ public class Prediction implements Serializable
         return this;
     }
 
+
+    public String getInformacion(){
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Ciudad: ").append(city.getName()).append('\n');
+        sb.append("País: ").append(city.getCountry()).append('\n');
+        sb.append("Coordenadas ").append('\n');
+        sb.append('\t').append("Latitud: ").append(city.getCoord().getLat()).append('\n');
+        sb.append('\t').append("Longitud ").append(city.getCoord().getLon()).append('\n');
+
+        sb.append(list).append('\n');
+
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Prediction{");
