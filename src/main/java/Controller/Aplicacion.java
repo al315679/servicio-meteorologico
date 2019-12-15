@@ -44,6 +44,7 @@ public class Aplicacion implements Serializable {
 
             }else if(opcion == 2){
                 System.out.println(tiempo.informacionDetallada());
+
             }
         }
 
