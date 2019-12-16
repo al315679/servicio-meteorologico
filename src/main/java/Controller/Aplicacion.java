@@ -26,7 +26,7 @@ public class Aplicacion implements Serializable {
         Scanner sc=new Scanner(System.in);
 
         System.out.print("Introduzca una ciudad: ");
-        String ciudad=sc.next();
+        String ciudad=sc.nextLine();
 
         System.out.println("¿Qué tipo de información quieres: ");
         System.out.println("1- Básica ");
@@ -89,7 +89,7 @@ public class Aplicacion implements Serializable {
         Scanner sc=new Scanner(System.in);
 
         System.out.print("Introduzca una ciudad: ");
-        String ciudad=sc.next();
+        String ciudad=sc.nextLine();
 
         Prediction prediccion = servicio.getPrediccionCiudad(ciudad);
 
@@ -169,7 +169,7 @@ public class Aplicacion implements Serializable {
         Scanner sc=new Scanner(System.in);
 
         System.out.print("Introduzca una ciudad: ");
-        String ciudad=sc.next();
+        String ciudad=sc.nextLine();
 
         if(baseDatos.getCiudadesFavoritas().contains(ciudad)){
             System.out.println(ciudad+" ya existe en favoritos");
@@ -190,7 +190,7 @@ public class Aplicacion implements Serializable {
         Scanner sc=new Scanner(System.in);
 
         System.out.print("Introduzca una ciudad: ");
-        String ciudad=sc.next();
+        String ciudad=sc.nextLine();
 
         if(baseDatos.getCiudadesFavoritas().contains(ciudad)){
 
