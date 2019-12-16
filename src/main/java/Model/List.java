@@ -193,9 +193,8 @@ public class List implements Serializable
 
         //sb.append("Nieve: ").append(snow.get3h()).append('\n');
 
-        sb.append("___________________________________________________________________________________________");
+        sb.append("___________________________________________________________________________________________").append('\n');
 
-        sb.append('\n');
         return sb.toString();
     }
 }

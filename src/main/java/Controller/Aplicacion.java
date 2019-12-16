@@ -122,6 +122,12 @@ public class Aplicacion implements Serializable {
 
     }
 
+
+            //SECCIÓN DE FAVORITOS
+
+
+
+
     public void getFavoritos(){
        TreeSet<String> ciudades =  baseDatos.getCiudadesFavoritas();
 
@@ -140,7 +146,7 @@ public class Aplicacion implements Serializable {
         System.out.println("");
 
 
-        TreeSet<String> coordenadas =  baseDatos.getCiudadesFavoritas();
+        TreeSet<String> coordenadas =  baseDatos.getCoordenadasFavoritas();
 
 
         System.out.println("---------------COORDENADAS---------------");
@@ -266,7 +272,9 @@ public class Aplicacion implements Serializable {
         if(!favoritos.isEmpty()){
             for(String lugar : favoritos){
                 System.out.println(lugar);
-                servicio.getTiempoCiudad(lugar);
+                System.out.println(servicio.getTiempoCiudad(lugar).informacionBasica());
+
+
             }
         }else{
             System.out.println("No tienes lugares favoritos");
@@ -283,7 +291,8 @@ public class Aplicacion implements Serializable {
         if(!favoritos.isEmpty()){
             for(String lugar : favoritos){
                 System.out.println(lugar);
-                servicio.getPrediccionCiudad(lugar);
+                System.out.println(servicio.getPrediccionCiudad(lugar).getInformacion());
+
             }
         }else{
             System.out.println("No tienes lugares favoritos");
@@ -302,7 +311,8 @@ public class Aplicacion implements Serializable {
             for(String lugar : favoritos){
                 String [] vector = lugar.split(",");
                 System.out.println(lugar);
-                servicio.getTiempoCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1]));
+                System.out.println(servicio.getTiempoCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).informacionBasica());
+
             }
         }else{
             System.out.println("No tienes lugares favoritos");
@@ -320,7 +330,8 @@ public class Aplicacion implements Serializable {
             for(String lugar : favoritos){
                 String [] vector = lugar.split(",");
                 System.out.println(lugar);
-                servicio.getPrediccionCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1]));
+                System.out.println(servicio.getPrediccionCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).getInformacion());
+
             }
         }else{
             System.out.println("No tienes lugares favoritos");

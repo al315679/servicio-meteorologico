@@ -124,6 +124,8 @@ public class Prediction implements Serializable
 
         sb.append(list).append('\n');
 
+        sb.append("___________________________________________________________________________________________").append('\n');
+
         return sb.toString();
     }
 

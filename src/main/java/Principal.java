@@ -116,10 +116,10 @@ public class Principal implements Serializable{
         System.out.println("3.  Eliminar ciudad de favoritos.");
         System.out.println("4.  Añadir coordenada a favoritos.");
         System.out.println("5.  Eliminar coordenada de favoritos.");
-        System.out.println("6.  Consultar tiempo actual de lugares favoritos.");
-        System.out.println("7.  Consultar predicción de lugares favoritos");
-        System.out.println("8.  Consultar tiempo actual de lugares favoritos.");
-        System.out.println("9.  Consultar predicción de lugares favoritos");
+        System.out.println("6.  Consultar tiempo actual de las ciudades favoritas.");
+        System.out.println("7.  Consultar predicción de las ciudades favoritas");
+        System.out.println("8.  Consultar tiempo actual de las coordenadas favoritas.");
+        System.out.println("9.  Consultar predicción de las coordenadas favoritas");
         System.out.println("10. Menú principal.");
     }
 
