@@ -3,6 +3,7 @@ package Controller;
 import Model.BaseDatos;
 import Model.Data;
 import Model.Prediction;
+import Services.IWeather;
 import Services.OpenWeather;
 
 import java.io.IOException;
@@ -12,13 +13,41 @@ import java.util.TreeSet;
 
 public class Aplicacion implements Serializable {
 
-    private OpenWeather servicio;
+    private IWeather servicio;
     private BaseDatos baseDatos;
 
 
     public Aplicacion(){
         servicio = new OpenWeather();
         baseDatos = new BaseDatos();
+    }
+
+    public Aplicacion(IWeather servicio) {
+        this.servicio = servicio;
+        this.baseDatos = new BaseDatos();
+    }
+
+    public Data getTiempoCiudad(String ciudad) throws IllegalArgumentException {
+        Data tiempo = servicio.getTiempoCiudad(ciudad);
+        return tiempo;
+    }
+
+    public Data getTiempoCoordenadas(double longitud, double latitud) throws IllegalArgumentException {
+        Data tiempo = servicio.getTiempoCoordenadas(longitud, latitud);
+
+        return tiempo;
+    }
+
+    public Prediction getPrediccionCiudad(String ciudad) throws IllegalArgumentException {
+        Prediction prediccion = servicio.getPrediccionCiudad(ciudad);
+
+        return prediccion;
+    }
+
+    public Prediction getPrediccionCoordenadas(double longitud, double latitud) throws IllegalArgumentException {
+        Prediction prediccion = servicio.getPrediccionCoordenadas(longitud, latitud);
+
+        return prediccion;
     }
 
     public void getTiempoCiudad() throws IOException {
