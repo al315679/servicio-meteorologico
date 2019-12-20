@@ -12,6 +12,7 @@ public class BaseDatos implements Serializable {
     private TreeMap<String, Prediction> coordenadasPrediciconBD;
     private TreeSet<String> ciudadesFavoritas;
     private TreeSet<String> coordenadasFavoritas;
+    private TreeMap<String, Coord> etiquetasCoordenadas;
 
 
     public BaseDatos(){
@@ -21,6 +22,7 @@ public class BaseDatos implements Serializable {
         this.coordenadasPrediciconBD = new TreeMap<String, Prediction>();
         this.ciudadesFavoritas = new TreeSet<String>();
         this.coordenadasFavoritas = new TreeSet<String>();
+        this.etiquetasCoordenadas = new TreeMap<>();
 
     }
 
@@ -39,6 +41,10 @@ public class BaseDatos implements Serializable {
 
     public void añadirPrediccionCoordenadas(String coordenadas, Prediction prediccion){
         coordenadasPrediciconBD.put(coordenadas, prediccion);
+    }
+
+    public void addEtiquetaCoordenadas(String etiqueta, Coord coord) {
+        etiquetasCoordenadas.put(etiqueta, coord);
     }
 
 
@@ -62,6 +68,10 @@ public class BaseDatos implements Serializable {
     public TreeSet<String> getCiudadesFavoritas(){
 
       return ciudadesFavoritas;
+    }
+
+    public Coord getEtiquetaCoordenadas(String etiqueta) {
+        return etiquetasCoordenadas.get(etiqueta);
     }
 
 
@@ -108,7 +118,5 @@ public class BaseDatos implements Serializable {
     public void setCiudadesFavoritas(TreeSet<String> ciudadesFavoritas) {
         this.ciudadesFavoritas = ciudadesFavoritas;
     }
-
-
 
 }

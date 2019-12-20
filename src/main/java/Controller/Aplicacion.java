@@ -371,10 +371,20 @@ public class Aplicacion implements Serializable {
     }
 
     public void addEtiquetaCoordenadas(String etiqueta, Coord coord) {
-        throw new UnsupportedOperationException("Metodo no implementado");
+        if (verificarCoordenadas(coord))
+            baseDatos.addEtiquetaCoordenadas(etiqueta, coord);
+        else
+            throw new IllegalArgumentException();
     }
 
     public Coord getEtiqueta(String etiqueta) {
-        throw new UnsupportedOperationException("Metodo no implementado");
+        return baseDatos.getEtiquetaCoordenadas(etiqueta);
+    }
+
+    private boolean verificarCoordenadas(Coord coord) {
+
+        if (-180 <= coord.getLon() && coord.getLon() <= 180 && -90 <= coord.getLat() && coord.getLat() <= 90)
+            return true;
+        return false;
     }
 }
