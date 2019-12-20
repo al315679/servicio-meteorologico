@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.BaseDatos;
+import Model.Coord;
 import Model.Data;
 import Model.Prediction;
+import Services.IWeather;
 import Services.OpenWeather;
 
 import java.io.IOException;
@@ -12,13 +14,41 @@ import java.util.TreeSet;
 
 public class Aplicacion implements Serializable {
 
-    private OpenWeather servicio;
+    private IWeather servicio;
     private BaseDatos baseDatos;
 
 
     public Aplicacion(){
         servicio = new OpenWeather();
         baseDatos = new BaseDatos();
+    }
+
+    public Aplicacion(IWeather servicio) {
+        this.servicio = servicio;
+        this.baseDatos = new BaseDatos();
+    }
+
+    public Data getTiempoCiudad(String ciudad) throws IllegalArgumentException {
+        Data tiempo = servicio.getTiempoCiudad(ciudad);
+        return tiempo;
+    }
+
+    public Data getTiempoCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
+        Data tiempo = servicio.getTiempoCoordenadas(latitud, longitud);
+
+        return tiempo;
+    }
+
+    public Prediction getPrediccionCiudad(String ciudad) throws IllegalArgumentException {
+        Prediction prediccion = servicio.getPrediccionCiudad(ciudad);
+
+        return prediccion;
+    }
+
+    public Prediction getPrediccionCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
+        Prediction prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
+
+        return prediccion;
     }
 
     public void getTiempoCiudad() throws IOException {
@@ -340,4 +370,21 @@ public class Aplicacion implements Serializable {
 
     }
 
+    public void addEtiquetaCoordenadas(String etiqueta, Coord coord) {
+        if (verificarCoordenadas(coord))
+            baseDatos.addEtiquetaCoordenadas(etiqueta, coord);
+        else
+            throw new IllegalArgumentException();
+    }
+
+    public Coord getEtiqueta(String etiqueta) {
+        return baseDatos.getEtiquetaCoordenadas(etiqueta);
+    }
+
+    private boolean verificarCoordenadas(Coord coord) {
+
+        if (-180 <= coord.getLon() && coord.getLon() <= 180 && -90 <= coord.getLat() && coord.getLat() <= 90)
+            return true;
+        return false;
+    }
 }
