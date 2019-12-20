@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.BaseDatos;
+import Model.Coord;
 import Model.Data;
 import Model.Prediction;
 import Services.IWeather;
@@ -32,8 +33,8 @@ public class Aplicacion implements Serializable {
         return tiempo;
     }
 
-    public Data getTiempoCoordenadas(double longitud, double latitud) throws IllegalArgumentException {
-        Data tiempo = servicio.getTiempoCoordenadas(longitud, latitud);
+    public Data getTiempoCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
+        Data tiempo = servicio.getTiempoCoordenadas(latitud, longitud);
 
         return tiempo;
     }
@@ -44,8 +45,8 @@ public class Aplicacion implements Serializable {
         return prediccion;
     }
 
-    public Prediction getPrediccionCoordenadas(double longitud, double latitud) throws IllegalArgumentException {
-        Prediction prediccion = servicio.getPrediccionCoordenadas(longitud, latitud);
+    public Prediction getPrediccionCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
+        Prediction prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
 
         return prediccion;
     }
@@ -369,4 +370,11 @@ public class Aplicacion implements Serializable {
 
     }
 
+    public void addEtiquetaCoordenadas(String etiqueta, Coord coord) {
+        throw new UnsupportedOperationException("Metodo no implementado");
+    }
+
+    public Coord getEtiqueta(String etiqueta) {
+        throw new UnsupportedOperationException("Metodo no implementado");
+    }
 }
