@@ -22,7 +22,6 @@ public class Principal implements Serializable{
         Scanner sc=new Scanner(System.in);
         int opcion=1;
         Cargar();
-        bd.actualizarBaseDatos();
 
         while(opcion<=5){
             System.out.println("***********************************************");
@@ -62,7 +61,7 @@ public class Principal implements Serializable{
         System.out.println("3.  Consultar la predicción del tiempo de una ciudad.");
         System.out.println("4.  Consultar la predicción del tiempo de unas coordenadas.");
         System.out.println("5.  Sección de favoritos.");
-        System.out.println("6.  Salir de la aplicación y guardar historial.");
+        System.out.println("6.  Salir de la aplicación.");
     }
 
     private void MenuFavoritos() throws IOException {
@@ -80,13 +79,13 @@ public class Principal implements Serializable{
                     bd.getFavoritos();
                     break;
                 case 2:
-                    bd.anadirCiudadFavorita();
+                    bd.añadirCiudadFavorita();
                     break;
                 case 3:
                     bd.borrarCiudadFavorita();
                     break;
                 case 4:
-                    bd.anadirCoordenadaFavorita();
+                    bd.añadirCoordenadaFavorita();
                     break;
                 case 5:
                     bd.borrarCoordenadaFavorita();
