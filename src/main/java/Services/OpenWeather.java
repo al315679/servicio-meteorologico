@@ -13,26 +13,74 @@ import java.net.URL;
 
 public class OpenWeather implements Serializable, IWeather {
 
-    public Data getTiempoCiudad(String ciudad) throws IOException {
-        URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + ciudad + "&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
-        return conexionAPICurrent(urlForGetRequest);
+    @Override
+    public Data getTiempoCiudad(String ciudad) throws IllegalArgumentException {
+
+        Data conexion = null;
+        try {
+            URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + ciudad + "&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
+            conexion = conexionAPICurrent(urlForGetRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (conexion != null)
+            return conexion;
+        else
+            throw new IllegalArgumentException();
     }
 
-    public Data getTiempoCoordenadas(double latitud, double longitud) throws IOException {
-        URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/weather?lat=" + latitud + "&lon=" + longitud + "&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
-        return conexionAPICurrent(urlForGetRequest);
+    @Override
+    public Data getTiempoCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
+
+        Data conexion = null;
+        try {
+            URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/weather?lat=" + latitud + "&lon=" + longitud + "&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
+            conexion = conexionAPICurrent(urlForGetRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (conexion != null)
+            return conexion;
+        else
+            throw new IllegalArgumentException();
 
     }
 
-    public Prediction getPrediccionCiudad(String ciudad) throws IOException {
-        URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/forecast?q="+ciudad+"&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
-        return conexionAPIForecast(urlForGetRequest);
+    @Override
+    public Prediction getPrediccionCiudad(String ciudad) throws IllegalArgumentException {
+
+        Prediction conexion = null;
+        try {
+            URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/forecast?q=" + ciudad + "&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
+            conexion = conexionAPIForecast(urlForGetRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (conexion != null)
+            return conexion;
+        else
+            throw new IllegalArgumentException();
 
     }
 
-    public Prediction getPrediccionCoordenadas(double latitud, double longitud) throws IOException {
-        URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/forecast?lat=" + latitud + "&lon=" + longitud + "&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
-        return conexionAPIForecast(urlForGetRequest);
+    @Override
+    public Prediction getPrediccionCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
+
+        Prediction conexion = null;
+        try {
+            URL urlForGetRequest = new URL("http://api.openweathermap.org/data/2.5/forecast?lat=" + latitud + "&lon=" + longitud + "&lang=es&units=metric&APPID=723f605274ef9a756e6ffc652ad1d35a");
+            conexion = conexionAPIForecast(urlForGetRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (conexion != null)
+            return conexion;
+        else
+            throw new IllegalArgumentException();
 
     }
 
