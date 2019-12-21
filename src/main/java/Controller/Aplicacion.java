@@ -19,11 +19,11 @@ public class Aplicacion implements Serializable {
     private IWeather servicio;
     private BaseDatos baseDatos;
 
-
     public Aplicacion() {
         servicio = new OpenWeather();
         baseDatos = new BaseDatos();
- 
+    }
+
     public Aplicacion(IWeather servicio) {
         this.servicio = servicio;
         this.baseDatos = new BaseDatos();
@@ -49,7 +49,7 @@ public class Aplicacion implements Serializable {
     public Prediction getPrediccionCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
         Prediction prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
 
-        return prediccion
+        return prediccion;
     }
 
     public void actualizarBaseDatos() {
