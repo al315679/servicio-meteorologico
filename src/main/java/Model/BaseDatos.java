@@ -76,31 +76,33 @@ public class BaseDatos implements Serializable {
 
     //Diferencia de dias de Solicitud/Dias actual
 
-    public int getDiasHastaHoyPrediccionCiudad(String ciudad) {
+    public int getDiasHastaHoyPrediccionCiudad(String ciudad, Boolean horas) {
         Date diaSolicitud = fechasPrediccionCiudad.get(ciudad);
-        return diferenciaDias(diaSolicitud);
+        return diferenciaDiasHoras(diaSolicitud, horas);
     }
 
-    public int getDiasHastaHoyBusquedaCiudad(String ciudad) {
+    public int getDiasHastaHoyBusquedaCiudad(String ciudad, Boolean horas) {
         Date diaSolicitud = fechasBusquedaCiudad.get(ciudad);
-        return diferenciaDias(diaSolicitud);
+        return diferenciaDiasHoras(diaSolicitud, horas);
     }
 
-    public int getDiasHastaHoyPrediccionCor(String cordenadas) {
+    public int getDiasHastaHoyPrediccionCor(String cordenadas, Boolean horas) {
         Date diaSolicitud = fechasPrediccionCoordenadas.get(cordenadas);
-        return diferenciaDias(diaSolicitud);
+        return diferenciaDiasHoras(diaSolicitud, horas);
     }
 
-    public int getDiasHastaHoyBusquedaCor(String coordenadas) {
+    public int getDiasHastaHoyBusquedaCor(String coordenadas, Boolean horas) {
         Date diaSolicitud = fechasBusquedaCoordenadas.get(coordenadas);
-        return diferenciaDias(diaSolicitud);
+        return diferenciaDiasHoras(diaSolicitud, horas);
     }
 
 
-    private int diferenciaDias(Date diaSolicitud) {
+    private int diferenciaDiasHoras(Date diaSolicitud, Boolean Horas) {
         java.util.Date fechaActual = new Date();
         System.out.println("Posible fecha actual: " + fechaActual.toString());
         int dias = (int) ((fechaActual.getTime() - diaSolicitud.getTime()) / 86400000);
+        if (Horas)
+            dias = dias / 24;
         return dias;
     }
 
@@ -122,25 +124,25 @@ public class BaseDatos implements Serializable {
     public void borrarSolicidudesViejas() {
 
         for (String ciudad : fechasBusquedaCiudad.keySet()) {
-            if (getDiasHastaHoyBusquedaCiudad(ciudad) > 2) {
+            if (getDiasHastaHoyBusquedaCiudad(ciudad, false) > 2) {
                 fechasBusquedaCiudad.remove(ciudad);
                 ciudadesActualBD.remove(ciudad);
             }
         }
         for (String ciudad : fechasPrediccionCiudad.keySet()) {
-            if (getDiasHastaHoyPrediccionCiudad(ciudad) > 2) {
+            if (getDiasHastaHoyPrediccionCiudad(ciudad, false) > 2) {
                 fechasPrediccionCiudad.remove(ciudad);
                 ciudadesPrediccionBD.remove(ciudad);
             }
         }
         for (String cor : fechasBusquedaCoordenadas.keySet()) {
-            if (getDiasHastaHoyBusquedaCor(cor) > 2) {
+            if (getDiasHastaHoyBusquedaCor(cor, false) > 2) {
                 fechasBusquedaCoordenadas.remove(cor);
                 coordenadasActualBD.remove(cor);
             }
         }
         for (String cor : fechasPrediccionCoordenadas.keySet()) {
-            if (getDiasHastaHoyPrediccionCor(cor) > 2) {
+            if (getDiasHastaHoyPrediccionCor(cor, false) > 2) {
                 fechasPrediccionCoordenadas.remove(cor);
                 coordenadasPrediciconBD.remove(cor);
             }

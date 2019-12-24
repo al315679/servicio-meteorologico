@@ -9,9 +9,9 @@ import Services.OpenWeather;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.ConnectException;
+
+import java.net.MalformedURLException;
 import java.util.Scanner;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Aplicacion implements Serializable {
@@ -23,33 +23,130 @@ public class Aplicacion implements Serializable {
     public Aplicacion() {
         servicio = new OpenWeather();
         baseDatos = new BaseDatos();
- 
+    }
+
     public Aplicacion(IWeather servicio) {
         this.servicio = servicio;
         this.baseDatos = new BaseDatos();
     }
 
-    public Data getTiempoCiudad(String ciudad) throws IllegalArgumentException {
-        Data tiempo = servicio.getTiempoCiudad(ciudad);
-        return tiempo;
+    public void setServicio(IWeather servicio) {
+        this.servicio = servicio;
     }
 
-    public Data getTiempoCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
-        Data tiempo = servicio.getTiempoCoordenadas(latitud, longitud);
+    public Data getTiempoCiudad(String ciudad) {
+        Data tiempo = null;
+        Data tiempoGuardado = null;
+        int horas;
+        if (baseDatos.getFechasBusquedaCiudadBD().containsKey(ciudad)) {
+            tiempoGuardado = baseDatos.getCiudadesActualBD().get(ciudad);
+            horas = baseDatos.getDiasHastaHoyBusquedaCiudad(ciudad, true);
+            if (horas < 3) {
+                return tiempoGuardado;
+            }
+        }
 
-        return tiempo;
+        try {
+            tiempo = servicio.getTiempoCiudad(ciudad);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (tiempo != null) {
+            baseDatos.anadirTiempoCiudad(ciudad, tiempo);
+            baseDatos.anadirFecha(ciudad, baseDatos.getFechasBusquedaCiudadBD());
+            return tiempo;
+
+        }
+        return tiempoGuardado;
+
+    }
+
+
+    public Data getTiempoCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
+        Data tiempo = null;
+        Data tiempoGuardado = null;
+        String cor = String.valueOf(latitud) + longitud;
+        int horas;
+        if (baseDatos.getCoordenadasActualBD().containsKey(cor)) {
+            tiempoGuardado = baseDatos.getCoordenadasActualBD().get(cor);
+            horas = baseDatos.getDiasHastaHoyBusquedaCor(cor, true);
+            if (horas < 3) {
+                return tiempoGuardado;
+            }
+        }
+
+        try {
+            tiempo = servicio.getTiempoCoordenadas(latitud, longitud);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        if (tiempo != null) {
+            baseDatos.anadirTiempoCoordenadas(cor, tiempo);
+            baseDatos.anadirFecha(cor, baseDatos.getFechasBusquedaCoordenadaDB());
+            return tiempo;
+        }
+
+
+        return tiempoGuardado;
+
+
     }
 
     public Prediction getPrediccionCiudad(String ciudad) throws IllegalArgumentException {
-        Prediction prediccion = servicio.getPrediccionCiudad(ciudad);
+        Prediction prediccion = null;
+        Prediction prediccionGuardado = null;
+        int horas;
+        if (baseDatos.getCiudadesPrediccionBD().containsKey(ciudad)) {
+            prediccionGuardado = baseDatos.getCiudadesPrediccionBD().get(ciudad);
+            horas = baseDatos.getDiasHastaHoyPrediccionCiudad(ciudad, true);
+            if (horas < 3) {
+                return prediccionGuardado;
+            }
+        }
 
-        return prediccion;
+        try {
+            prediccion = servicio.getPrediccionCiudad(ciudad);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        if (prediccion != null) {
+            baseDatos.anadirPrediccionCiudad(ciudad, prediccion);
+            baseDatos.anadirFecha(ciudad, baseDatos.getFechasPrediccionCiudadBD());
+            return prediccion;
+        }
+
+
+        return prediccionGuardado;
+
     }
 
     public Prediction getPrediccionCoordenadas(double latitud, double longitud) throws IllegalArgumentException {
-        Prediction prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
+        Prediction prediccion = null;
+        Prediction prediccionGuardado = null;
+        String cor = String.valueOf(latitud) + longitud;
+        int horas;
+        if (baseDatos.getFechasPrediccionCoordenadaDB().containsKey(cor)) {
+            prediccionGuardado = baseDatos.getCoordenadasPrediciconBD().get(cor);
+            horas = baseDatos.getDiasHastaHoyPrediccionCor(cor, true);
+            if (horas < 3) {
+                return prediccionGuardado;
+            }
+        }
 
-        return prediccion
+        try {
+            prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (prediccion != null) {
+            baseDatos.anadirPrediccionCoordenadas(cor, prediccion);
+            baseDatos.anadirFecha(cor, baseDatos.getFechasPrediccionCoordenadaDB());
+            return prediccion;
+        }
+
+        return prediccionGuardado;
+
     }
 
     public void actualizarBaseDatos() {
@@ -78,10 +175,10 @@ public class Aplicacion implements Serializable {
                 System.out.println("No se ha encontrado una ciudad con el nombre: " + ciudad);
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
             //Compruebo si la ciudad esta en cache, si no hay conexion
             if (baseDatos.getFechasBusquedaCiudadBD().containsKey(ciudad)) {
-                int dias = baseDatos.getDiasHastaHoyBusquedaCiudad(ciudad);
+                int dias = baseDatos.getDiasHastaHoyBusquedaCiudad(ciudad, false);
                 Data tiempo = baseDatos.getCiudadesActualBD().get(ciudad);
                 System.out.println("Se ha perdido la conexion con la api:");
                 System.out.println("Se ha podido recuperar datos de la ciudad " + ciudad + " de una solicitud de hace " + dias + " dias");
@@ -126,7 +223,7 @@ public class Aplicacion implements Serializable {
             }
         } catch (Exception e) {
             if (baseDatos.getFechasBusquedaCoordenadaDB().containsKey(coordenadas)) {
-                int dias = baseDatos.getDiasHastaHoyBusquedaCor(coordenadas);
+                int dias = baseDatos.getDiasHastaHoyBusquedaCor(coordenadas, false);
                 Data tiempo = baseDatos.getCoordenadasActualBD().get(coordenadas);
                 System.out.println("Se ha perdido la conexion con la api:");
                 System.out.println("Se ha podido recuperar datos de la coordenada " + coordenadas + " de una solicitud de hace " + dias + " dias");
@@ -169,7 +266,7 @@ public class Aplicacion implements Serializable {
         } catch (Exception e) {
 
             if (baseDatos.getFechasPrediccionCiudadBD().containsKey(ciudad)) {
-                int dias = baseDatos.getDiasHastaHoyPrediccionCiudad(ciudad);
+                int dias = baseDatos.getDiasHastaHoyPrediccionCiudad(ciudad, false);
                 Prediction prediccion = baseDatos.getCiudadesPrediccionBD().get(ciudad);
                 System.out.println("Se ha perdido la conexion con la api:");
                 System.out.println("Se ha podido recuperar datos de la ciudad " + ciudad + " de una solicitud de hace " + dias + " dias");
@@ -205,7 +302,7 @@ public class Aplicacion implements Serializable {
             }
         } catch (Exception e) {
             if (baseDatos.getFechasPrediccionCoordenadaDB().containsKey(coordenadas)) {
-                int dias = baseDatos.getDiasHastaHoyPrediccionCor(coordenadas);
+                int dias = baseDatos.getDiasHastaHoyPrediccionCor(coordenadas, false);
                 Prediction prediccion = baseDatos.getCoordenadasPrediciconBD().get(coordenadas);
                 System.out.println("Se ha perdido la conexion con la api:");
                 System.out.println("Se ha podido recuperar datos de la coordenada " + coordenadas + " de una solicitud de hace " + dias + " dias");
@@ -360,9 +457,13 @@ public class Aplicacion implements Serializable {
 
 
         if(!favoritos.isEmpty()){
-            for(String lugar : favoritos){
+            for(String lugar : favoritos) {
                 System.out.println(lugar);
-                System.out.println(servicio.getTiempoCiudad(lugar).informacionBasica());
+                try {
+                    servicio.getTiempoCiudad(lugar).informacionBasica();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 
             }

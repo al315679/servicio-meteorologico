@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 
+import java.net.MalformedURLException;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.mock;
@@ -26,7 +28,7 @@ public class AplicacionTiempoActualTest {
     }
 
     @Test
-    public void getTiempoActualCiudadValidad() {
+    public void getTiempoActualCiudadValidada() throws MalformedURLException {
         IWeather mock = mock(IWeather.class);
         controller = new Aplicacion(mock);
         controller.getTiempoCiudad("Madrid");
@@ -35,7 +37,7 @@ public class AplicacionTiempoActualTest {
     }
 
     @Test
-    public void getTiempoActualCiudadNoValida() {
+    public void getTiempoActualCiudadNoValida() throws MalformedURLException {
         IWeather mock = mock(IWeather.class);
         when(mock.getTiempoCiudad(any())).thenThrow(IllegalArgumentException.class);
         controller = new Aplicacion(mock);
@@ -44,7 +46,7 @@ public class AplicacionTiempoActualTest {
     }
 
     @Test
-    public void getTiempoActualCoordenadasValidadas() {
+    public void getTiempoActualCoordenadasValidadas() throws MalformedURLException {
         IWeather mock = mock(IWeather.class);
         controller = new Aplicacion(mock);
         controller.getTiempoCoordenadas(39.9924751, -0.067382);
@@ -53,7 +55,7 @@ public class AplicacionTiempoActualTest {
     }
 
     @Test
-    public void getTiempoActualCoordenadasNoValidadas() {
+    public void getTiempoActualCoordenadasNoValidadas() throws MalformedURLException {
         IWeather mock = mock(IWeather.class);
         when(mock.getTiempoCoordenadas(anyDouble(), anyDouble())).thenThrow(IllegalArgumentException.class);
         controller = new Aplicacion(mock);
