@@ -1,7 +1,7 @@
 import Controller.Aplicacion;
-import Controller.Controlador;
 import Model.BaseDatos;
 import View.Vista;
+import View.VistaFavoritos;
 
 import javax.swing.*;
 import java.io.Serializable;
@@ -30,6 +30,8 @@ public class PrincipalMVC  implements Serializable {
         modelo.setVista(vista);
         vista.ejecutar();
     }
+
+
 
     public static void main(String args[]) {
         SwingUtilities.invokeLater(new Runnable() {

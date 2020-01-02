@@ -12,13 +12,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.TreeMap;
 
 import javax.swing.*;
 
-import Controller.Controlador;
 import Controller.Aplicacion;
 import Model.BaseDatos;
 
@@ -34,7 +30,7 @@ public class Vista implements InterfaceVista, Serializable{
     private JDialog emergente;
     private Container contenedor;
     private JPanel panelGeneral;
-    private Boton botonBuscar;
+    private Boton botonBuscar, botonAtras;
     private JTextField jtfBuscar;
     private JTextArea jlResultado;
     private JRadioButton radioButtonCiudad, radioButtonCoordenadas, radioButtonBasica, radioButtonDetallada, radioButtonActual, radioButtonPrediccion;
@@ -43,7 +39,7 @@ public class Vista implements InterfaceVista, Serializable{
         ventana = new JFrame("Servicio Metereológico");
         contenedor = ventana.getContentPane();
         panelGeneral = new JPanel();
-        panelGeneral.setLayout(new GridLayout(5, 2, 10, 10));
+        panelGeneral.setLayout(new GridLayout(6, 2, 10, 10));
     }
 
     //@Override
@@ -54,6 +50,7 @@ public class Vista implements InterfaceVista, Serializable{
         panelGeneral.add(crearPanelTipoInformacion());
         panelGeneral.add(crearPanelBuscar());
         panelGeneral.add(crearPanelMostrar());
+        panelGeneral.add(crearPanelAtras());
         contenedor.add(panelGeneral);
 
         ventana.addWindowListener(new EscuchadorCerrarVentana());
@@ -64,7 +61,7 @@ public class Vista implements InterfaceVista, Serializable{
         ventana.setVisible(true);
 
         cargar();
-        crearJDConArchivo();
+        //crearJDConArchivo();
     }
 
 
@@ -100,7 +97,7 @@ public class Vista implements InterfaceVista, Serializable{
     //@SuppressWarnings("unchecked")
     private void cargar()
     {
-        System.out.println("Voy a cargar datos");
+        //System.out.println("Voy a cargar datos");
         ObjectInputStream ois = null;
         try{
             try {
@@ -119,12 +116,12 @@ public class Vista implements InterfaceVista, Serializable{
 
             }
             finally {
-                System.out.println("Datos cargados");
+                //System.out.println("Datos cargados");
                 if(ois != null) ois.close();
             }
         }
         catch(FileNotFoundException exc) {
-            System.err.println("Fichero de datos no existe. Se crea una nueva base de datos.");
+            //System.err.println("Fichero de datos no existe. Se crea una nueva base de datos.");
         }
         catch(IOException exc) {
             exc.printStackTrace();
@@ -158,7 +155,6 @@ public class Vista implements InterfaceVista, Serializable{
         }
     }
 
-    //Para saber si quieres información detallada o básica
     private Component crearPanelBusqueda(){
 
         JPanel jpBusqueda=new JPanel();
@@ -167,8 +163,12 @@ public class Vista implements InterfaceVista, Serializable{
         jtfBuscar=new JTextField(10);
 
         radioButtonCiudad = new JRadioButton("Ciudad");
+        radioButtonCiudad.addActionListener(new CambioBoton());
+
 
         radioButtonCoordenadas= new JRadioButton("Coordenadas");
+        radioButtonCoordenadas.addActionListener(new CambioBoton());
+
 
 
         ButtonGroup tipoInformacion = new ButtonGroup();
@@ -197,8 +197,10 @@ public class Vista implements InterfaceVista, Serializable{
         JLabel jlTipoInformacion=new JLabel("Información");
 
         radioButtonBasica = new JRadioButton("Básica");
+        radioButtonBasica.addActionListener(new CambioBoton());
 
         radioButtonDetallada= new JRadioButton("Detallada");
+        radioButtonDetallada.addActionListener(new CambioBoton());
 
 
         ButtonGroup tipoInformacion = new ButtonGroup();
@@ -242,7 +244,7 @@ public class Vista implements InterfaceVista, Serializable{
     private Component crearPanelBuscar() {
         JPanel jpBuscar = new JPanel();
         botonBuscar = new Boton("Buscar", new Buscar());
-        botonBuscar.setEnabled(true);
+        botonBuscar.setEnabled(false);
 
         jpBuscar.add(botonBuscar);
         return jpBuscar;
@@ -257,6 +259,17 @@ public class Vista implements InterfaceVista, Serializable{
         return jpMostrar;
     }
 
+    private Component crearPanelAtras(){
+
+        JPanel jp=new JPanel();
+
+        botonAtras = new Boton("Favoritos", new Favoritos());
+
+        jp.add(botonAtras);
+
+        return jp;
+
+    }
 
     private class EscuchadorCerrarVentana extends WindowAdapter {
         @Override
@@ -310,6 +323,17 @@ public class Vista implements InterfaceVista, Serializable{
         }
     }
 
+    private class Favoritos implements ActionListener {
+        //@Override
+        public void actionPerformed(ActionEvent e) {
+            VistaFavoritos seecionBuscar = new VistaFavoritos();
+            seecionBuscar.setControlador(controlador);
+            seecionBuscar.setModelo(modelo);
+            seecionBuscar.ejecutar();
+            ventana.dispose();
+        }
+    }
+
 
     private class Cerrar implements ActionListener {
         //@Override
@@ -322,13 +346,8 @@ public class Vista implements InterfaceVista, Serializable{
     private class CambioBoton implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent arg0) {
-            if(radioButtonPrediccion.isSelected()) {
-                radioButtonBasica.setEnabled(false);
-                radioButtonDetallada.setEnabled(false);
-
-            } else {
-                radioButtonBasica.setEnabled(true);
-                radioButtonDetallada.setEnabled(true);
+            if((radioButtonCiudad.isSelected() || radioButtonCoordenadas.isSelected()) && (radioButtonBasica.isSelected() || radioButtonDetallada.isSelected()) && (radioButtonActual.isSelected() || radioButtonPrediccion.isSelected())) {
+                botonBuscar.setEnabled(true);
             }
         }
     }
@@ -380,7 +399,7 @@ public class Vista implements InterfaceVista, Serializable{
         jdResultado.setVisible(true);
     }
 
-    public void coordenadasNoEncontradas(String ciudad){
+    public void coordenadasNoEncontradas(String coordenadas){
         JDialog jdResultado = new JDialog(emergente, true);
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
@@ -389,7 +408,7 @@ public class Vista implements InterfaceVista, Serializable{
         JLabel jlMensaje;
 
 
-        jlMensaje = new JLabel("No se ha encontrado la ciudad "+ciudad);
+        jlMensaje = new JLabel("No se han encontrado las coordenadas "+coordenadas);
 
 
         jpMensaje.add(jlMensaje);

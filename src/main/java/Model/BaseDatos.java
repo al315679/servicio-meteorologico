@@ -1,5 +1,8 @@
 package Model;
 
+import View.InterfaceVista;
+import View.Vista;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.TreeMap;
@@ -19,6 +22,12 @@ public class BaseDatos implements Serializable {
     private TreeMap<String, Date> fechasPrediccionCoordenadas;
     private TreeMap<String, Coord> etiquetasCoordenadas;
 
+    @SuppressWarnings("unused")
+    private InterfaceVista vista;
+
+    public void setVista(Vista vista) {
+        this.vista = vista;
+    }
 
     public BaseDatos() {
         this.ciudadesActualBD = new TreeMap<String, Data>();

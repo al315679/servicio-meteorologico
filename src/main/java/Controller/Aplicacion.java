@@ -6,6 +6,8 @@ import Model.Data;
 import Model.Prediction;
 import Services.IWeather;
 import Services.OpenWeather;
+import View.InterfaceVista;
+import View.Vista;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,6 +21,9 @@ public class Aplicacion implements Serializable {
     private IWeather servicio;
     private BaseDatos baseDatos;
 
+    @SuppressWarnings("unused")
+    private InterfaceVista vista;
+
     public Aplicacion() {
         servicio = new OpenWeather();
         baseDatos = new BaseDatos();
@@ -27,6 +32,14 @@ public class Aplicacion implements Serializable {
     public Aplicacion(IWeather servicio) {
         this.servicio = servicio;
         this.baseDatos = new BaseDatos();
+    }
+
+    public void setModelo(BaseDatos baseDatos) {
+        this.baseDatos = baseDatos;
+    }
+
+    public void setVista(Vista vista) {
+        this.vista = vista;
     }
 
     public Data getTiempoCiudad(String ciudad) throws IllegalArgumentException {

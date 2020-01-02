@@ -2,7 +2,6 @@ package View;
 
 
 import Controller.Aplicacion;
-import Controller.Controlador;
 import Model.BaseDatos;
 
 public interface InterfaceVista {
