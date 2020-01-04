@@ -4,6 +4,7 @@ import Model.Data;
 import Model.Prediction;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public interface IWeather {
     Data getTiempoCiudad(String ciudad) throws IllegalArgumentException;

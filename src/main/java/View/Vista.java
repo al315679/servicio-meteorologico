@@ -33,6 +33,7 @@ public class Vista implements InterfaceVista, Serializable{
     private Boton botonBuscar, botonAtras;
     private JTextField jtfBuscar;
     private JTextArea jlResultado;
+    private ButtonGroup tipoInformacion;
     private JRadioButton radioButtonCiudad, radioButtonCoordenadas, radioButtonBasica, radioButtonDetallada, radioButtonActual, radioButtonPrediccion;
 
     public Vista() {
@@ -110,8 +111,16 @@ public class Vista implements InterfaceVista, Serializable{
                 modelo.setCoordenadasActualBD(modelo2.getCoordenadasActualBD());
                 modelo.setCiudadesPrediccionBD(modelo2.getCiudadesPrediccionBD());
                 modelo.setCoordenadasPrediciconBD(modelo2.getCoordenadasPrediciconBD());
+                modelo.setFechasBusquedaCiudadBD (modelo2.getFechasBusquedaCiudadBD());
+                modelo.setFechasBusquedaCoordenadas (modelo2.getFechasBusquedaCoordenadaDB());
+                modelo.setFechasPrediccionCiudadBD (modelo2.getFechasPrediccionCiudadBD());
+                modelo.setFechasPrediccionCoordenadas (modelo2.getFechasPrediccionCoordenadaDB ());
                 modelo.setCiudadesFavoritas(modelo2.getCiudadesFavoritas());
                 modelo.setCoordenadasFavoritas(modelo2.getCoordenadasFavoritas());
+                //falta uno
+
+
+
 
 
             }
@@ -122,6 +131,7 @@ public class Vista implements InterfaceVista, Serializable{
         }
         catch(FileNotFoundException exc) {
             //System.err.println("Fichero de datos no existe. Se crea una nueva base de datos.");
+
         }
         catch(IOException exc) {
             exc.printStackTrace();
@@ -203,7 +213,7 @@ public class Vista implements InterfaceVista, Serializable{
         radioButtonDetallada.addActionListener(new CambioBoton());
 
 
-        ButtonGroup tipoInformacion = new ButtonGroup();
+        tipoInformacion = new ButtonGroup();
         tipoInformacion.add(radioButtonBasica);
         tipoInformacion.add(radioButtonDetallada);
 
@@ -253,7 +263,7 @@ public class Vista implements InterfaceVista, Serializable{
     private Component crearPanelMostrar() {
         JPanel jpMostrar = new JPanel();
 
-        jlResultado = new JTextArea("");
+        jlResultado = new JTextArea("",80,40);
         jpMostrar.add(jlResultado);
 
         return jpMostrar;
@@ -319,17 +329,21 @@ public class Vista implements InterfaceVista, Serializable{
     private class Buscar implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
-            controlador.getTiempo(getVista());
+            String res= controlador.getTiempo(getVista());
+            System.out.println("Info: "+res);
+            setTexto(res);
+
+
         }
     }
 
     private class Favoritos implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
-            VistaFavoritos seecionBuscar = new VistaFavoritos();
-            seecionBuscar.setControlador(controlador);
-            seecionBuscar.setModelo(modelo);
-            seecionBuscar.ejecutar();
+            VistaFavoritos secionBuscar = new VistaFavoritos();
+            secionBuscar.setControlador(controlador);
+            secionBuscar.setModelo(modelo);
+            secionBuscar.ejecutar();
             ventana.dispose();
         }
     }
@@ -346,12 +360,47 @@ public class Vista implements InterfaceVista, Serializable{
     private class CambioBoton implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent arg0) {
-            if((radioButtonCiudad.isSelected() || radioButtonCoordenadas.isSelected()) && (radioButtonBasica.isSelected() || radioButtonDetallada.isSelected()) && (radioButtonActual.isSelected() || radioButtonPrediccion.isSelected())) {
+            if((radioButtonCiudad.isSelected() || radioButtonCoordenadas.isSelected()) && ((radioButtonActual.isSelected() && (radioButtonBasica.isSelected() || radioButtonDetallada.isSelected())) || radioButtonPrediccion.isSelected() )) {
                 botonBuscar.setEnabled(true);
+            }
+            else {
+                botonAtras.setEnabled(false);
+            }
+            if (radioButtonPrediccion.isSelected()){
+                tipoInformacion.clearSelection();
+                radioButtonBasica.setEnabled(false);
+                radioButtonDetallada.setEnabled(false);
+
+            }
+            else{
+                radioButtonBasica.setEnabled(true);
+                radioButtonDetallada.setEnabled(true);
             }
         }
     }
 
+    public void ciudadEncontrada(String res){
+        JDialog jdResultado = new JDialog(emergente, true);
+        JPanel jpGeneral = new JPanel();
+        jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
+
+        JPanel jpMensaje = new JPanel();
+        JLabel jlMensaje;
+
+
+        jlMensaje = new JLabel(res);
+
+
+        jpMensaje.add(jlMensaje);
+        jpGeneral.add(jpMensaje);
+
+        jdResultado.getContentPane().add(jpGeneral);
+
+        jdResultado.pack();
+        jdResultado.setResizable(false);
+        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        jdResultado.setVisible(true);
+    }
 
     public void formatoCoordenadasIncorrecto(){
         JDialog jdResultado = new JDialog(emergente, true);
@@ -439,13 +488,13 @@ public class Vista implements InterfaceVista, Serializable{
         if(radioButtonActual.isSelected()) {
             return "Actual";
         } else {
-            return "Predicción";
+            return "Prediccion";
         }
     }
 
     public String getTipoInformacion() {
         if(radioButtonBasica.isSelected()) {
-            return "Básica";
+            return "Basica";
         } else {
             return "Detallada";
         }

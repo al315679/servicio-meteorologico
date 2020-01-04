@@ -26,7 +26,7 @@ public class VistaFavoritos {
     private JDialog emergente;
     private Container contenedor;
     private JPanel panelGeneral;
-    private Boton botonAñadir, botonBorrar, botonBuscar;
+    private Boton botonAnadir, botonBorrar, botonBuscar;
     private JTextField jtfTexto, jtfBuscar;
     private JTextArea jlListaFavoritos, jlActualFavoritos, jlPrediccionFavoritos;
     private JRadioButton radioButtonCiudad, radioButtonCoordenadas;
@@ -41,7 +41,7 @@ public class VistaFavoritos {
     //@Override
     public void ejecutar() {
 
-        panelGeneral.add(crearPanelAñadirBorrar());
+        panelGeneral.add(crearPanelAnadirBorrar());
         panelGeneral.add(crearPanelTipo());
         panelGeneral.add(crearPanelMostrar());
         panelGeneral.add(crearPanelAtras());
@@ -58,22 +58,22 @@ public class VistaFavoritos {
 
     }
 
-    private Component crearPanelAñadirBorrar(){
+    private Component crearPanelAnadirBorrar(){
 
         JPanel jpTexto=new JPanel();
 
         JLabel jlTexto=new JLabel("Ciudad/Coordenadas");
         jtfTexto=new JTextField(10);
 
-        botonAñadir = new Boton("Añadir", new Añadir());
-        botonAñadir.setEnabled(false);
+        botonAnadir = new Boton("Añadir", new Anadir());
+        botonAnadir.setEnabled(false);
 
         botonBorrar = new Boton("Borrar", new Borrar());
         botonBorrar.setEnabled(false);
 
         jpTexto.add(jlTexto);
         jpTexto.add(jtfTexto);
-        jpTexto.add(botonAñadir);
+        jpTexto.add(botonAnadir);
         jpTexto.add(botonBorrar);
 
 
@@ -139,7 +139,7 @@ public class VistaFavoritos {
 
         JPanel jp=new JPanel();
 
-        botonBuscar = new Boton("<< Atrás", new SeccionBuscar());
+        botonBuscar = new Boton("<< Atras", new SeccionBuscar());
 
         jp.add(botonBuscar);
 
@@ -148,17 +148,17 @@ public class VistaFavoritos {
 
     }
 
-    private class Añadir implements ActionListener {
+    private class Anadir implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
-            controlador.añadirFavoritos(getVista());
+            //controlador.anadirFavoritos(getVista());
         }
     }
 
     private class Borrar implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
-            controlador.borrarFavoritos(getVista());
+            //controlador.borrarFavoritos(getVista());
         }
     }
 
@@ -174,7 +174,7 @@ public class VistaFavoritos {
         }
     }
 
-    public void AñadidoCorrectamente(String cadena){
+    public void AnadidoCorrectamente(String cadena){
         JDialog jdResultado = new JDialog(emergente, true);
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
@@ -220,7 +220,7 @@ public class VistaFavoritos {
         jdResultado.setVisible(true);
     }
 
-    public void AñadirExistente(String cadena){
+    public void AnadirExistente(String cadena){
         JDialog jdResultado = new JDialog(emergente, true);
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
@@ -339,7 +339,7 @@ public class VistaFavoritos {
         //@Override
         public void actionPerformed(ActionEvent arg0) {
             if((radioButtonCiudad.isSelected() || radioButtonCoordenadas.isSelected())) {
-                botonAñadir.setEnabled(true);
+                botonAnadir.setEnabled(true);
                 botonBorrar.setEnabled(true);
             }
         }
