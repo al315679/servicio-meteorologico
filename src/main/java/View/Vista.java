@@ -56,7 +56,7 @@ public class Vista implements InterfaceVista, Serializable{
 
         ventana.addWindowListener(new EscuchadorCerrarVentana());
         ventana.pack();
-        ventana.setResizable(false);
+        ventana.setResizable(true);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setLocationRelativeTo(null);
         ventana.setVisible(true);
@@ -263,8 +263,15 @@ public class Vista implements InterfaceVista, Serializable{
     private Component crearPanelMostrar() {
         JPanel jpMostrar = new JPanel();
 
-        jlResultado = new JTextArea("",80,40);
-        jpMostrar.add(jlResultado);
+        jlResultado = new JTextArea(5, 60);
+        jlResultado.setEditable(false);
+        jlResultado.setLineWrap(true);
+        jlResultado.setWrapStyleWord(true);
+        JScrollPane scroll = new JScrollPane(jlResultado);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jpMostrar.add(scroll);
+        //jpMostrar.add(jlResultado);
+
 
         return jpMostrar;
     }
@@ -363,9 +370,7 @@ public class Vista implements InterfaceVista, Serializable{
             if((radioButtonCiudad.isSelected() || radioButtonCoordenadas.isSelected()) && ((radioButtonActual.isSelected() && (radioButtonBasica.isSelected() || radioButtonDetallada.isSelected())) || radioButtonPrediccion.isSelected() )) {
                 botonBuscar.setEnabled(true);
             }
-            else {
-                botonAtras.setEnabled(false);
-            }
+
             if (radioButtonPrediccion.isSelected()){
                 tipoInformacion.clearSelection();
                 radioButtonBasica.setEnabled(false);

@@ -1,3 +1,4 @@
+/*
 import Controller.Aplicacion;
 
 import java.io.*;
@@ -180,3 +181,4 @@ public class Principal implements Serializable{
 
 
 }
+*/

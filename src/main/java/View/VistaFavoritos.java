@@ -35,7 +35,7 @@ public class VistaFavoritos {
         ventana = new JFrame("Servicio Metereológico");
         contenedor = ventana.getContentPane();
         panelGeneral = new JPanel();
-        panelGeneral.setLayout(new GridLayout(5, 2, 10, 10));
+        panelGeneral.setLayout(new GridLayout(6, 2, 10, 10));
     }
 
     //@Override
@@ -46,6 +46,10 @@ public class VistaFavoritos {
         panelGeneral.add(crearPanelMostrar());
         panelGeneral.add(crearPanelAtras());
         contenedor.add(panelGeneral);
+
+        controlador.getFavoritos(getVista());
+        controlador.getTiempoFavoritos(getVista());
+        controlador.getPrediccionFavoritos(getVista());
 
         ventana.addWindowListener(new EscuchadorCerrarVentana());
         ventana.pack();
@@ -114,22 +118,40 @@ public class VistaFavoritos {
         JPanel jpMostrar = new JPanel();
 
         JLabel jlFavoritos=new JLabel("Lista favoritos");
-        jlListaFavoritos = new JTextArea("");
+        jlListaFavoritos = new JTextArea(5, 30);
+        jlListaFavoritos.setEditable(false);
+
+        jlListaFavoritos.setLineWrap(true);
+        jlListaFavoritos.setWrapStyleWord(true);
+        JScrollPane scroll1 = new JScrollPane(jlListaFavoritos);
+        scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         JLabel jlActual=new JLabel("Tiempo actual");
-        jlActualFavoritos = new JTextArea("");
+        jlActualFavoritos = new JTextArea(5, 30);
+        jlActualFavoritos.setEditable(false);
+
+        jlActualFavoritos.setLineWrap(true);
+        jlActualFavoritos.setWrapStyleWord(true);
+        JScrollPane scroll2 = new JScrollPane(jlActualFavoritos);
+        scroll2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         JLabel jlPrediccion=new JLabel("Predicción");
-        jlPrediccionFavoritos = new JTextArea("");
+        jlPrediccionFavoritos = new JTextArea(5,30);
+        jlPrediccionFavoritos.setEditable(false);
+
+        jlPrediccionFavoritos.setLineWrap(true);
+        jlPrediccionFavoritos.setWrapStyleWord(true);
+        JScrollPane scroll3 = new JScrollPane(jlPrediccionFavoritos);
+        scroll3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         jpMostrar.add(jlFavoritos);
-        jpMostrar.add(jlListaFavoritos);
+        jpMostrar.add(scroll1);
         jpMostrar.add(jlActual);
-        jpMostrar.add(jlActualFavoritos);
+        jpMostrar.add(scroll2);
 
         jpMostrar.add(jlPrediccion);
 
-        jpMostrar.add(jlPrediccionFavoritos);
+        jpMostrar.add(scroll3);
 
 
         return jpMostrar;
@@ -151,14 +173,14 @@ public class VistaFavoritos {
     private class Anadir implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
-            //controlador.anadirFavoritos(getVista());
+            controlador.anadirFavoritos(getVista());
         }
     }
 
     private class Borrar implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
-            //controlador.borrarFavoritos(getVista());
+            controlador.borrarFavoritos(getVista());
         }
     }
 
@@ -243,7 +265,30 @@ public class VistaFavoritos {
         jdResultado.setVisible(true);
     }
 
-    public void BorrarExistente(String cadena){
+    public void AnadirError(String cadena){
+        JDialog jdResultado = new JDialog(emergente, true);
+        JPanel jpGeneral = new JPanel();
+        jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
+
+        JPanel jpMensaje = new JPanel();
+        JLabel jlMensaje;
+
+
+        jlMensaje = new JLabel("ERRROR. No se ha podidio añadir " + cadena + " a favoritos");
+
+
+        jpMensaje.add(jlMensaje);
+        jpGeneral.add(jpMensaje);
+
+        jdResultado.getContentPane().add(jpGeneral);
+
+        jdResultado.pack();
+        jdResultado.setResizable(false);
+        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        jdResultado.setVisible(true);
+    }
+
+    public void BorrarNoExistente(String cadena){
         JDialog jdResultado = new JDialog(emergente, true);
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
@@ -253,6 +298,29 @@ public class VistaFavoritos {
 
 
         jlMensaje = new JLabel(cadena+" no existe en favoritos ");
+
+
+        jpMensaje.add(jlMensaje);
+        jpGeneral.add(jpMensaje);
+
+        jdResultado.getContentPane().add(jpGeneral);
+
+        jdResultado.pack();
+        jdResultado.setResizable(false);
+        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        jdResultado.setVisible(true);
+    }
+
+    public void BorrarError(String cadena){
+        JDialog jdResultado = new JDialog(emergente, true);
+        JPanel jpGeneral = new JPanel();
+        jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
+
+        JPanel jpMensaje = new JPanel();
+        JLabel jlMensaje;
+
+
+        jlMensaje = new JLabel("ERRROR. No se ha podidio borrar "+cadena+" de favoritos");
 
 
         jpMensaje.add(jlMensaje);
@@ -351,6 +419,10 @@ public class VistaFavoritos {
         } else {
             return "Coordenada";
         }
+    }
+
+    public String getTexto() {
+       return jtfTexto.getText();
     }
 
     public void setJlListaFavoritos(String resultado){

@@ -8,6 +8,7 @@ import Services.IWeather;
 import Services.OpenWeather;
 import View.InterfaceVista;
 import View.Vista;
+import View.VistaFavoritos;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -206,6 +207,7 @@ public class Aplicacion implements Serializable {
 
          */
     }
+
     private String getPrediccionCoordenadasVista(float latitud, float longitud) {
 
         String coordenadas = latitud + ", " +longitud;
@@ -273,6 +275,7 @@ public class Aplicacion implements Serializable {
 
          */
     }
+
     public String getTiempoCoordenadasVista(float latitud, float longitud, String tipo) {
         String coordenadas = latitud + ", " + longitud;
 
@@ -343,98 +346,263 @@ public class Aplicacion implements Serializable {
 
 
 
+    public void anadirFavoritos(VistaFavoritos vista) {
 
+        String opcion = vista.getTipoBusqueda();
 
+        String favorito = vista.getTexto();
 
+        if (opcion.compareTo("Ciudad") == 0) {
 
-
-
-
-
-
-
-    public void getTiempoCiudad() throws IOException {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Introduzca una ciudad: ");
-        String ciudad = sc.nextLine();
-        System.out.println("¿Qué tipo de información quieres: ");
-        System.out.println("1- Básica ");
-        System.out.println("2- Detallada ");
-
-        System.out.print("Elige una opción: ");
-        int opcion = sc.nextInt();
-        try {
-            Data tiempo = servicio.getTiempoCiudad(ciudad);
-
-            if (tiempo != null) {
-                baseDatos.anadirTiempoCiudad(ciudad, tiempo);
-                baseDatos.anadirFecha(ciudad, baseDatos.getFechasBusquedaCiudadBD());
-                imprimirTiempo(opcion, tiempo);
+            if (baseDatos.getCiudadesFavoritas().contains(favorito)) {
+                System.out.println(favorito + " ya existe en favoritos");
+                vista.AnadirExistente(favorito);
             } else {
-                System.out.println("No se ha encontrado una ciudad con el nombre: " + ciudad);
+
+                boolean anadir = baseDatos.anadirCiudadFavorita(favorito);
+
+                if (anadir) {
+                    System.out.println("Se ha añadido " + favorito + " a favoritos");
+                    vista.AnadidoCorrectamente(favorito);
+                    getFavoritos(vista);
+                    getTiempoFavoritos(vista);
+                    getPrediccionFavoritos(vista);
+                } else {
+                    System.out.println("ERRROR. No se ha podidio añadir " + favorito + " a favoritos");
+                    vista.AnadirError(favorito);
+                }
             }
-        } catch (Exception e) {
 
-            //Compruebo si la ciudad esta en cache, si no hay conexion
-            if (baseDatos.getFechasBusquedaCiudadBD().containsKey(ciudad)) {
-                int horas = baseDatos.getDiasHastaHoyBusquedaCiudad(ciudad, true);
-                Data tiempo = baseDatos.getCiudadesActualBD().get(ciudad);
-                System.out.println("Se ha perdido la conexion con la api:");
-                System.out.println("Se ha podido recuperar datos de la ciudad " + ciudad + " de una solicitud de hace " + horas + " horas");
-                imprimirTiempo(opcion, tiempo);
-            } else {
-                System.out.println("Se ha perdido la conexion con la api.");
+        } else {
+
+            if (opcion.compareTo("Coordenada") == 0) {
+
+                if (baseDatos.getCoordenadasFavoritas().contains(favorito)) {
+                    System.out.println(favorito + " ya existe en favoritos");
+                    vista.AnadirExistente(favorito);
+                } else {
+
+                    boolean anadir = baseDatos.anadirCoordenadasFavoritas(favorito);
+
+                    if (anadir) {
+                        System.out.println("Se ha añadido " + favorito + " a favoritos");
+                        vista.AnadidoCorrectamente(favorito);
+                        getFavoritos(vista);
+                        getTiempoFavoritos(vista);
+                        getPrediccionFavoritos(vista);
+                    } else {
+                        System.out.println("ERRROR. No se ha podidio añadir " + favorito + " a favoritos");
+                        vista.AnadirError(favorito);
+                    }
+                }
+
             }
 
         }
 
-
     }
 
-    public void getTiempoCoordenadas() throws IOException {
+    public void borrarFavoritos(VistaFavoritos vista){
 
-        Scanner sc=new Scanner(System.in);
+        String opcion = vista.getTipoBusqueda();
 
-        System.out.print("Introduzca una longitud: ");
-        double longitud = Double.parseDouble(sc.next());
+        String favorito = vista.getTexto();
 
-        System.out.print("Introduzca una latitud: ");
-        double latitud = Double.parseDouble(sc.next());
+        if(opcion.compareTo("Ciudad") == 0 ){
 
-        String coordenadas = Double.toString(latitud) + ", " + Double.toString(longitud);
+            if(baseDatos.getCiudadesFavoritas().contains(favorito)){
 
-        System.out.println("¿Qué tipo de información quieres: ");
-        System.out.println("1- Básica ");
-        System.out.println("2- Detallada ");
+                boolean borrar =baseDatos.borrarCiudadFavorita(favorito);
 
-        System.out.print("Elige una opción: ");
-        int opcion = sc.nextInt();
-        try {
-            Data tiempo = servicio.getTiempoCoordenadas(latitud, longitud);
+                if(borrar){
+                    System.out.println("Se ha borrado "+favorito+" de favoritos");
+                    vista.BorradoCorrectamente(favorito);
+                    getFavoritos(vista);
+                    getTiempoFavoritos(vista);
+                    getPrediccionFavoritos(vista);
+                }else {
+                    System.out.println("ERRROR. No se ha podidio borrar "+favorito+" de favoritos");
+                    vista.BorrarError(favorito);
+                }
 
-            if (tiempo != null) {
-                baseDatos.anadirTiempoCoordenadas(coordenadas, tiempo);
-                baseDatos.anadirFecha(coordenadas, baseDatos.getFechasBusquedaCoordenadaDB());
-                imprimirTiempo(opcion, tiempo);
-            } else {
-                System.out.println("No se ha encontrado una coordenada con el nombre: " + coordenadas);
+            }else{
+
+                System.out.println(favorito+" no existe en favoritos");
+                vista.BorrarNoExistente(favorito);
 
             }
-        } catch (Exception e) {
-            if (baseDatos.getFechasBusquedaCoordenadaDB().containsKey(coordenadas)) {
-                int horas = baseDatos.getDiasHastaHoyBusquedaCor(coordenadas, true);
-                Data tiempo = baseDatos.getCoordenadasActualBD().get(coordenadas);
-                System.out.println("Se ha perdido la conexion con la api:");
-                System.out.println("Se ha podido recuperar datos de la coordenada " + coordenadas + " de una solicitud de hace " + horas + " horas");
-                imprimirTiempo(opcion, tiempo);
-            } else {
-                System.out.println("Se ha perdido la conexion con la api.");
+
+        }else{
+
+            if(baseDatos.getCoordenadasFavoritas().contains(favorito)){
+
+                boolean borrar =baseDatos.borrarCoordenadasFavoritas(favorito);
+
+                if(borrar){
+                    System.out.println("Se ha borrado "+favorito+" de favoritos");
+                    vista.BorradoCorrectamente(favorito);
+                    getFavoritos(vista);
+                    getTiempoFavoritos(vista);
+                    getPrediccionFavoritos(vista);
+
+                }else {
+                    System.out.println("ERRROR. No se ha podidio borrar "+favorito+" de favoritos");
+                    vista.BorrarError(favorito);
+                }
+
+            }else{
+
+                System.out.println(favorito+" no existe en favoritos");
+                vista.BorrarNoExistente(favorito);
             }
         }
 
     }
+
+    public void getFavoritos(VistaFavoritos vista){
+
+        TreeSet<String> ciudades =  baseDatos.getCiudadesFavoritas();
+
+
+        System.out.println("---------------CIUDADES---------------");
+
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append("---------------CIUDADES-------------------").append('\n');
+
+
+
+        if(ciudades.isEmpty()){
+            System.out.println("No tienes ciudades favoritas");
+            sb.append("No tienes ciudades favoritas").append('\n').append('\n');
+        }else{
+            for(String ciudad : ciudades){
+                System.out.println(ciudad);
+                sb.append(ciudad).append('\n');
+            }
+        }
+
+        System.out.println("");
+
+        TreeSet<String> coordenadas =  baseDatos.getCoordenadasFavoritas();
+
+
+        System.out.println("---------------COORDENADAS---------------");
+
+        sb.append('\n').append("---------------COORDENADAS---------------").append('\n');
+
+        if(coordenadas.isEmpty()){
+            System.out.println("No tienes coordenadas favoritas");
+            sb.append("No tienes coordenadas favoritas").append('\n').append('\n');
+        }else{
+            for(String coordenada : coordenadas){
+                System.out.println(coordenada);
+                sb.append(coordenada).append('\n');
+
+            }
+        }
+
+        vista.setJlListaFavoritos(sb.toString());
+        System.out.println("");
+
+    }
+
+
+    public void getTiempoFavoritos(VistaFavoritos vista){
+
+        TreeSet<String> favoritos =  baseDatos.getCiudadesFavoritas();
+
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append("---------------CIUDADES-------------------").append('\n');
+
+
+        if(!favoritos.isEmpty()){
+            for(String lugar : favoritos){
+                System.out.println(lugar);
+                System.out.println(servicio.getTiempoCiudad(lugar).informacionBasica());
+                sb.append(servicio.getTiempoCiudad(lugar).informacionBasica()).append('\n');
+
+            }
+        }else{
+            System.out.println("No tienes lugares favoritos");
+            sb.append("No tienes ciudades favoritas").append('\n').append('\n');
+
+        }
+
+        TreeSet<String> favoritas =  baseDatos.getCoordenadasFavoritas();
+
+        sb.append('\n').append("---------------COORDENADAS---------------").append('\n');
+
+        if(!favoritas.isEmpty()){
+            for(String lugar : favoritas){
+                String [] vector = lugar.split(",");
+                System.out.println(lugar);
+                System.out.println(servicio.getTiempoCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).informacionBasica());
+                sb.append(servicio.getTiempoCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).informacionBasica()).append('\n');
+
+            }
+        }else{
+            System.out.println("No tienes lugares favoritos");
+            sb.append("No tienes coordenadas favoritas").append('\n').append('\n');
+
+        }
+
+        vista.setJlActualFavoritos(sb.toString());
+
+    }
+
+    public void getPrediccionFavoritos(VistaFavoritos vista){
+
+        TreeSet<String> favoritos =  baseDatos.getCiudadesFavoritas();
+
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append("---------------CIUDADES-------------------").append('\n');
+
+
+        if(!favoritos.isEmpty()){
+            for(String lugar : favoritos){
+                System.out.println(lugar);
+                System.out.println(servicio.getPrediccionCiudad(lugar).getInformacion());
+                sb.append(servicio.getPrediccionCiudad(lugar).getInformacion()).append('\n');
+
+
+            }
+        }else{
+            System.out.println("No tienes lugares favoritos");
+            sb.append("No tienes ciudades favoritas").append('\n').append('\n');
+
+
+        }
+
+        sb.append('\n').append("---------------COORDENADAS---------------").append('\n');
+
+
+        TreeSet<String> favoritas =  baseDatos.getCoordenadasFavoritas();
+
+
+        if(!favoritas.isEmpty()){
+            for(String lugar : favoritas){
+                String [] vector = lugar.split(",");
+                System.out.println(lugar);
+                System.out.println(servicio.getPrediccionCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).getInformacion());
+                sb.append(servicio.getPrediccionCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).getInformacion()).append('\n');
+
+            }
+        }else{
+            System.out.println("No tienes lugares favoritos");
+            sb.append("No tienes coordenadas favoritas").append('\n').append('\n');
+
+
+        }
+
+        vista.setJlPrediccionFavoritos(sb.toString());
+
+    }
+
+
+
 
 
     public void imprimirTiempo(int opcion, Data tiempo) {
@@ -445,6 +613,8 @@ public class Aplicacion implements Serializable {
             System.out.println(tiempo.informacionDetallada());
         }
     }
+
+
     public String getInfoTiempo(String opcion, Data tiempo) {
         String s;
         if (opcion.equals("Basica")) {
@@ -458,76 +628,11 @@ public class Aplicacion implements Serializable {
 
 
 
-    public void getPrediccionCiudad() throws IOException {
 
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Introduzca una ciudad: ");
-        String ciudad = sc.nextLine();
-        try {
-            Prediction prediccion = servicio.getPrediccionCiudad(ciudad);
-
-            if (prediccion != null) {
-                baseDatos.anadirPrediccionCiudad(ciudad, prediccion);
-                baseDatos.anadirFecha(ciudad, baseDatos.getFechasPrediccionCiudadBD());
-                System.out.println("Weather prediccion " + prediccion.getInformacion());
-            } else {
-                System.out.println("No se ha encontrado una ciudad con el nombre: " + ciudad);
-            }
-
-        } catch (Exception e) {
-
-            if (baseDatos.getFechasPrediccionCiudadBD().containsKey(ciudad)) {
-                int horas = baseDatos.getDiasHastaHoyPrediccionCiudad(ciudad, true);
-                Prediction prediccion = baseDatos.getCiudadesPrediccionBD().get(ciudad);
-                System.out.println("Se ha perdido la conexion con la api:");
-                System.out.println("Se ha podido recuperar datos de la ciudad " + ciudad + " de una solicitud de hace " + horas + " horas");
-                System.out.println("Weather prediccion " + prediccion.getInformacion());
-            } else {
-                System.out.println("Se ha perdido la conexion con la api.");
-            }
-
-        }
-
-
-    }
-
-    public void getPrediccionCoordenadas() throws IOException {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Introduzca una longitud: ");
-        double longitud = Double.parseDouble(sc.next());
-
-        System.out.print("Introduzca una latitud: ");
-        double latitud = Double.parseDouble(sc.next());
-
-        String coordenadas = Double.toString(latitud) + ", " + Double.toString(longitud);
-        try {
-            Prediction prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
-            if (prediccion != null) {
-                baseDatos.anadirPrediccionCoordenadas(coordenadas, prediccion);
-                baseDatos.anadirFecha(coordenadas, baseDatos.getFechasPrediccionCoordenadaDB());
-                System.out.println("Weather prediccion " + prediccion.toString());
-            } else {
-                System.out.println("No se ha encontrado una coordenada con el nombre: " + coordenadas);
-            }
-        } catch (Exception e) {
-            if (baseDatos.getFechasPrediccionCoordenadaDB().containsKey(coordenadas)) {
-                int horas = baseDatos.getDiasHastaHoyPrediccionCor(coordenadas, true);
-                Prediction prediccion = baseDatos.getCoordenadasPrediciconBD().get(coordenadas);
-                System.out.println("Se ha perdido la conexion con la api:");
-                System.out.println("Se ha podido recuperar datos de la coordenada " + coordenadas + " de una solicitud de hace " + horas + " horas");
-                System.out.println("Weather prediccion " + prediccion.toString());
-            } else {
-                System.out.println("Se ha perdido la conexion con la api.");
-            }
-        }
-    }
 
 
     //SECCIÓN DE FAVORITOS
-    public void getFavoritos(){
+    /*public void getFavoritos(){
        TreeSet<String> ciudades =  baseDatos.getCiudadesFavoritas();
 
 
@@ -561,107 +666,9 @@ public class Aplicacion implements Serializable {
 
         System.out.println("");
 
-    }
+    }*/
 
-    public void anadirCiudadFavorita() {
 
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Introduzca una ciudad: ");
-        String ciudad = sc.nextLine();
-
-        if (baseDatos.getCiudadesFavoritas().contains(ciudad)) {
-            System.out.println(ciudad + " ya existe en favoritos");
-        } else {
-
-            boolean anadir = baseDatos.anadirCiudadFavorita(ciudad);
-
-            if (anadir) {
-                System.out.println("Se ha añadido " + ciudad + " a favoritos");
-            } else {
-                System.out.println("ERRROR. No se ha podidio añadir " + ciudad + " a favoritos");
-            }
-        }
-    }
-
-    public void borrarCiudadFavorita(){
-
-        Scanner sc=new Scanner(System.in);
-
-        System.out.print("Introduzca una ciudad: ");
-        String ciudad=sc.nextLine();
-
-        if(baseDatos.getCiudadesFavoritas().contains(ciudad)){
-
-            boolean borrar =baseDatos.borrarCiudadFavorita(ciudad);
-
-            if(borrar){
-                System.out.println("Se ha borrado "+ciudad+" de favoritos");
-            }else {
-                System.out.println("ERRROR. No se ha podidio borrar "+ciudad+" de favoritos");
-            }
-
-        }else{
-
-            System.out.println(ciudad+" no existe en favoritos");
-
-        }
-    }
-
-    public void anadirCoordenadaFavorita() {
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Introduzca una latitud: ");
-        String latitud = sc.next();
-
-        System.out.print("Introduzca una longitud: ");
-        String longitud = sc.next();
-
-        String coordenadas = latitud + ", " + longitud;
-
-        if (baseDatos.getCoordenadasFavoritas().contains(coordenadas)) {
-            System.out.println(coordenadas + " ya existe en favoritos");
-        } else {
-
-            boolean anadir = baseDatos.anadirCoordenadasFavoritas(coordenadas);
-
-            if (anadir) {
-                System.out.println("Se ha añadido " + coordenadas + " a favoritos");
-            } else {
-                System.out.println("ERRROR. No se ha podidio añadir " + coordenadas + " a favoritos");
-            }
-        }
-    }
-
-    public void borrarCoordenadaFavorita(){
-
-        Scanner sc=new Scanner(System.in);
-
-        System.out.print("Introduzca una latitud: ");
-        String latitud=sc.next();
-
-        System.out.print("Introduzca una longitud: ");
-        String longitud=sc.next();
-
-        String coordenadas = latitud+", "+longitud;
-
-        if(baseDatos.getCoordenadasFavoritas().contains(coordenadas)){
-
-            boolean borrar =baseDatos.borrarCoordenadasFavoritas(coordenadas);
-
-            if(borrar){
-                System.out.println("Se ha borrado "+coordenadas+" de favoritos");
-            }else {
-                System.out.println("ERRROR. No se ha podidio borrar "+coordenadas+" de favoritos");
-            }
-
-        }else{
-
-            System.out.println(coordenadas+" no existe en favoritos");
-
-        }
-    }
 
     public void getTiempoCiudadesFavoritas() throws IOException {
 
