@@ -187,6 +187,7 @@ public class VistaFavoritos {
     private class SeccionBuscar implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
+            guardar();
             Vista seecionBuscar = new Vista();
             seecionBuscar.setControlador(controlador);
             seecionBuscar.setModelo(modelo);

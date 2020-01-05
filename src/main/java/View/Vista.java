@@ -62,6 +62,7 @@ public class Vista implements InterfaceVista, Serializable{
         ventana.setVisible(true);
 
         cargar();
+        controlador.actualizarBaseDatos();
         //crearJDConArchivo();
     }
 
@@ -117,7 +118,7 @@ public class Vista implements InterfaceVista, Serializable{
                 modelo.setFechasPrediccionCoordenadas (modelo2.getFechasPrediccionCoordenadaDB ());
                 modelo.setCiudadesFavoritas(modelo2.getCiudadesFavoritas());
                 modelo.setCoordenadasFavoritas(modelo2.getCoordenadasFavoritas());
-                //falta uno
+
 
 
 
@@ -347,6 +348,7 @@ public class Vista implements InterfaceVista, Serializable{
     private class Favoritos implements ActionListener {
         //@Override
         public void actionPerformed(ActionEvent e) {
+            guardar();
             VistaFavoritos secionBuscar = new VistaFavoritos();
             secionBuscar.setControlador(controlador);
             secionBuscar.setModelo(modelo);
