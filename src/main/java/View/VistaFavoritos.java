@@ -317,6 +317,67 @@ public class VistaFavoritos {
         emergente.setVisible(true);
     }
 
+    public void CiudadNoExiste(String cadena){
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
+        JPanel jpGeneral = new JPanel();
+        jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
+
+        JPanel jpMensaje = new JPanel();
+
+        JLabel jlMensaje = new JLabel("La ciudad "+cadena+" no existe");
+        jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
+        jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
+
+        contenedor.add(jpGeneral);
+
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
+    }
+
+    public void CoordenadasNoExiste(String cadena){
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
+        JPanel jpGeneral = new JPanel();
+        jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
+
+        JPanel jpMensaje = new JPanel();
+
+        JLabel jlMensaje = new JLabel("La coordenada "+cadena+" no existe");
+        jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
+        jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
+
+        contenedor.add(jpGeneral);
+
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
+    }
+
+
     public void BorrarNoExistente(String cadena){
 
         emergente = new JDialog(ventana, true);
@@ -376,6 +437,37 @@ public class VistaFavoritos {
         emergente.setLocationRelativeTo(null);
         emergente.setVisible(true);
     }
+
+    public void formatoCoordenadasIncorrecto(){
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
+        JPanel jpGeneral = new JPanel();
+        jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
+
+        JPanel jpMensaje = new JPanel();
+
+        JLabel jlMensaje = new JLabel("Formato de coordenadas incorrecto, debe ser latitud, longitud");
+        jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
+        jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
+
+        contenedor.add(jpGeneral);
+
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
+    }
+
 
     private  void guardar() {
         ObjectOutputStream oos=null;

@@ -359,30 +359,11 @@ public class Aplicacion implements Serializable {
                 vista.AnadirExistente(favorito);
             } else {
 
-                boolean anadir = baseDatos.anadirCiudadFavorita(favorito);
+                try {
+                    Data ciudad = servicio.getTiempoCiudad(favorito);
 
-                if (anadir) {
-                    System.out.println("Se ha añadido " + favorito + " a favoritos");
-                    vista.AnadidoCorrectamente(favorito);
-                    getFavoritos(vista);
-                    getTiempoFavoritos(vista);
-                    getPrediccionFavoritos(vista);
-                } else {
-                    System.out.println("ERRROR. No se ha podidio añadir " + favorito + " a favoritos");
-                    vista.AnadirError(favorito);
-                }
-            }
 
-        } else {
-
-            if (opcion.compareTo("Coordenada") == 0) {
-
-                if (baseDatos.getCoordenadasFavoritas().contains(favorito)) {
-                    System.out.println(favorito + " ya existe en favoritos");
-                    vista.AnadirExistente(favorito);
-                } else {
-
-                    boolean anadir = baseDatos.anadirCoordenadasFavoritas(favorito);
+                    boolean anadir = baseDatos.anadirCiudadFavorita(favorito);
 
                     if (anadir) {
                         System.out.println("Se ha añadido " + favorito + " a favoritos");
@@ -394,8 +375,47 @@ public class Aplicacion implements Serializable {
                         System.out.println("ERRROR. No se ha podidio añadir " + favorito + " a favoritos");
                         vista.AnadirError(favorito);
                     }
+
+                }catch(IllegalArgumentException e){
+                    vista.CiudadNoExiste(favorito);
                 }
 
+            }
+
+        } else {
+
+            if (opcion.compareTo("Coordenada") == 0) {
+
+                if (baseDatos.getCoordenadasFavoritas().contains(favorito)) {
+                    System.out.println(favorito + " ya existe en favoritos");
+                    vista.AnadirExistente(favorito);
+                } else {
+
+                    try {
+
+                        String coor [] = favorito.split(",");
+
+                        Data ciudad = servicio.getTiempoCoordenadas(Double.parseDouble(coor[0]), Double.parseDouble(coor[1]));
+
+
+                        boolean anadir = baseDatos.anadirCoordenadasFavoritas(favorito);
+
+                        if (anadir) {
+                            System.out.println("Se ha añadido " + favorito + " a favoritos");
+                            vista.AnadidoCorrectamente(favorito);
+                            getFavoritos(vista);
+                            getTiempoFavoritos(vista);
+                            getPrediccionFavoritos(vista);
+                        } else {
+                            System.out.println("ERRROR. No se ha podidio añadir " + favorito + " a favoritos");
+                            vista.AnadirError(favorito);
+                        }
+                    }catch (IllegalArgumentException e){
+                        vista.CoordenadasNoExiste(favorito);
+                    }catch (ArrayIndexOutOfBoundsException e) {
+                        vista.formatoCoordenadasIncorrecto();
+                    }
+                }
             }
 
         }
@@ -627,49 +647,6 @@ public class Aplicacion implements Serializable {
     }
 
 
-
-
-
-
-    //SECCIÓN DE FAVORITOS
-    /*public void getFavoritos(){
-       TreeSet<String> ciudades =  baseDatos.getCiudadesFavoritas();
-
-
-        System.out.println("---------------CIUDADES---------------");
-
-
-        if(ciudades.isEmpty()){
-           System.out.println("No tienes ciudades favoritas");
-        }else{
-           for(String ciudad : ciudades){
-               System.out.println(ciudad);
-           }
-        }
-
-        System.out.println("");
-
-
-        TreeSet<String> coordenadas =  baseDatos.getCoordenadasFavoritas();
-
-
-        System.out.println("---------------COORDENADAS---------------");
-
-
-        if(coordenadas.isEmpty()){
-            System.out.println("No tienes coordenadas favoritas");
-        }else{
-            for(String coordenada : coordenadas){
-                System.out.println(coordenada);
-            }
-        }
-
-        System.out.println("");
-
-    }*/
-
-
-
     public void getTiempoCiudadesFavoritas() throws IOException {
 
         TreeSet<String> favoritos =  baseDatos.getCiudadesFavoritas();
@@ -801,5 +778,47 @@ public class Aplicacion implements Serializable {
         return resultado;
 
     }
+
+
+
+
+
+    //SECCIÓN DE FAVORITOS
+    /*public void getFavoritos(){
+       TreeSet<String> ciudades =  baseDatos.getCiudadesFavoritas();
+
+
+        System.out.println("---------------CIUDADES---------------");
+
+
+        if(ciudades.isEmpty()){
+           System.out.println("No tienes ciudades favoritas");
+        }else{
+           for(String ciudad : ciudades){
+               System.out.println(ciudad);
+           }
+        }
+
+        System.out.println("");
+
+
+        TreeSet<String> coordenadas =  baseDatos.getCoordenadasFavoritas();
+
+
+        System.out.println("---------------COORDENADAS---------------");
+
+
+        if(coordenadas.isEmpty()){
+            System.out.println("No tienes coordenadas favoritas");
+        }else{
+            for(String coordenada : coordenadas){
+                System.out.println(coordenada);
+            }
+        }
+
+        System.out.println("");
+
+    }*/
+
 
 }
