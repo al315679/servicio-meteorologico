@@ -408,72 +408,93 @@ public class Vista implements InterfaceVista, Serializable{
     }
 
     public void formatoCoordenadasIncorrecto(){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel("Formato de coordenadas incorrecto, debe ser latitud, longitud");
-
-
+        JLabel jlMensaje = new JLabel("Formato de coordenadas incorrecto, debe ser latitud, longitud");
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
     public void ciudadNoEncontrada(String ciudad){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel("No se ha encontrado la ciudad "+ciudad);
-
-
+        JLabel jlMensaje = new JLabel("No se ha encontrado la ciudad "+ciudad);
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
     public void coordenadasNoEncontradas(String coordenadas){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel("No se han encontrado las coordenadas "+coordenadas);
-
-
+        JLabel jlMensaje = new JLabel("No se han encontrado las coordenadas "+coordenadas);
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
 

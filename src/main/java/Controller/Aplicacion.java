@@ -765,39 +765,41 @@ public class Aplicacion implements Serializable {
     }
 
     public String getTiempo(Vista vista) {
-        String orden="";
-        String[] coor= null;
-        String ciudadCoordenada= vista.getBusqueda();
-        if(vista.getTipoBusqueda().equals("Coordenada")){
+        String orden = "";
+        String[] coor = null;
+        String ciudadCoordenada = vista.getBusqueda();
+        if (vista.getTipoBusqueda().equals("Coordenada")) {
             coor = ciudadCoordenada.split(",");
         }
-        String resultado="";
-        orden+= vista.getTipoBusqueda()+"/";
-        orden+= vista.getTipoConsulta();
-        String tipo =vista.getTipoInformacion();
+        String resultado = "";
+        orden += vista.getTipoBusqueda() + "/";
+        orden += vista.getTipoConsulta();
+        String tipo = vista.getTipoInformacion();
 
-        switch (orden){
-            case "Ciudad/Actual":
-                return getTiempoCiudadVista(ciudadCoordenada, tipo);
+        try {
+            switch (orden) {
+                case "Ciudad/Actual":
+                    return getTiempoCiudadVista(ciudadCoordenada, tipo);
 
-            case "Ciudad/Prediccion":
-                return getPrediccionCiudadVista(ciudadCoordenada);
+                case "Ciudad/Prediccion":
+                    return getPrediccionCiudadVista(ciudadCoordenada);
 
-            case "Coordenada/Prediccion":
-                return getPrediccionCoordenadasVista(Float.parseFloat(coor[0]), Float.parseFloat(coor[1]));
+                case "Coordenada/Prediccion":
+                    return getPrediccionCoordenadasVista(Float.parseFloat(coor[0]), Float.parseFloat(coor[1]));
 
-            case "Coordenada/Actual":
-                return getTiempoCoordenadasVista(Float.parseFloat(coor[0]), Float.parseFloat(coor[1]), tipo);
+                case "Coordenada/Actual":
+                    return getTiempoCoordenadasVista(Float.parseFloat(coor[0]), Float.parseFloat(coor[1]), tipo);
 
+            }
 
-
-
+        } catch (NumberFormatException e) {
+            vista.formatoCoordenadasIncorrecto();
+        }catch (ArrayIndexOutOfBoundsException e) {
+            vista.formatoCoordenadasIncorrecto();
         }
+
         return resultado;
 
     }
-
-
-
 
 }

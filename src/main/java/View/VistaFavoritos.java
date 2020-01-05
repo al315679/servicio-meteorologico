@@ -197,141 +197,184 @@ public class VistaFavoritos {
     }
 
     public void AnadidoCorrectamente(String cadena){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel(cadena+" se ha añadido correctamente ");
-
-
+        JLabel jlMensaje = new JLabel(cadena+" se ha añadido correctamente ");
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
     public void BorradoCorrectamente(String cadena){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel(cadena+" se ha borrado correctamente ");
-
-
+        JLabel jlMensaje = new JLabel(cadena+" se ha borrado correctamente ");
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
     public void AnadirExistente(String cadena){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel(cadena+" ya existe en favoritos ");
-
-
+        JLabel jlMensaje = new JLabel(cadena+" ya existe en favoritos ");
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
+
     }
 
     public void AnadirError(String cadena){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel("ERRROR. No se ha podidio añadir " + cadena + " a favoritos");
-
-
+        JLabel jlMensaje = new JLabel("ERRROR. No se ha podidio añadir " + cadena + " a favoritos");
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
     public void BorrarNoExistente(String cadena){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel(cadena+" no existe en favoritos ");
-
-
+        JLabel jlMensaje = new JLabel(cadena+" no existe en favoritos ");
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
     public void BorrarError(String cadena){
-        JDialog jdResultado = new JDialog(emergente, true);
+
+        emergente = new JDialog(ventana, true);
+        Container contenedor = emergente.getContentPane();
+
         JPanel jpGeneral = new JPanel();
         jpGeneral.setLayout(new BoxLayout(jpGeneral, BoxLayout.Y_AXIS));
 
         JPanel jpMensaje = new JPanel();
-        JLabel jlMensaje;
 
-
-        jlMensaje = new JLabel("ERRROR. No se ha podidio borrar "+cadena+" de favoritos");
-
-
+        JLabel jlMensaje = new JLabel("ERRROR. No se ha podidio borrar "+cadena+" de favoritos");
         jpMensaje.add(jlMensaje);
+
+        JPanel jpAceptar = new JPanel();
+
+        Boton jbOk = new Boton("OK", new Aceptar());
+        jpAceptar.add(jbOk);
+
         jpGeneral.add(jpMensaje);
+        jpGeneral.add(jpAceptar);
 
-        jdResultado.getContentPane().add(jpGeneral);
+        contenedor.add(jpGeneral);
 
-        jdResultado.pack();
-        jdResultado.setResizable(false);
-        jdResultado.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        jdResultado.setVisible(true);
+        emergente.pack();
+        emergente.setResizable(false);
+        emergente.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        emergente.setLocationRelativeTo(null);
+        emergente.setVisible(true);
     }
 
     private  void guardar() {
@@ -392,6 +435,13 @@ public class VistaFavoritos {
             public void actionPerformed(ActionEvent e) {
                 ventana.dispose();
             }
+        }
+    }
+
+    private class Aceptar implements ActionListener {
+        //@Override
+        public void actionPerformed(ActionEvent e) {
+            emergente.dispose();
         }
     }
 
