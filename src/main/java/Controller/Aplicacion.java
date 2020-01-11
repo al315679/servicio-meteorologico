@@ -94,7 +94,7 @@ public class Aplicacion implements Serializable {
         }
 
         try {
-            tiempo = servicio.getTiempoCiudad(ciudad);
+            tiempo = getTiempoCiudad(ciudad);
         }
         catch (IllegalArgumentException e){
             return "No se ha encontrado una ciudad con el nombre "+ ciudad;
@@ -160,7 +160,7 @@ public class Aplicacion implements Serializable {
         }
 
         try {
-            prediccion = servicio.getPrediccionCiudad(ciudad);
+            prediccion = getPrediccionCiudad(ciudad);
         }
 
         catch (IllegalArgumentException e){
@@ -230,7 +230,7 @@ public class Aplicacion implements Serializable {
         }
 
         try {
-            prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
+            prediccion = getPrediccionCoordenadas(latitud, longitud);
         }
         catch (IllegalArgumentException e){
             return "No se ha encontrado una coordenada con estos parametros "+ coordenadas;
@@ -297,7 +297,7 @@ public class Aplicacion implements Serializable {
         }
 
         try {
-            tiempo = servicio.getTiempoCoordenadas(latitud, longitud);
+            tiempo = getTiempoCoordenadas(latitud, longitud);
         }
         catch (IllegalArgumentException e){
             return "No se ha encontrado una coordenada con estos parametros "+ coordenadas;
@@ -779,8 +779,9 @@ public class Aplicacion implements Serializable {
 
     }
 
-
-
+    public BaseDatos getDB() {
+        return baseDatos;
+    }
 
 
     //SECCIÓN DE FAVORITOS

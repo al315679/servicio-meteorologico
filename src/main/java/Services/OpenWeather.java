@@ -4,7 +4,6 @@ package Services;
 import Model.Data;
 import Model.Prediction;
 import com.google.gson.*;
-import javafx.scene.chart.ScatterChart;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.NoRouteToHostException;
 import java.net.URL;
-import java.rmi.UnknownHostException;
 
 public class OpenWeather implements Serializable, IWeather {
 

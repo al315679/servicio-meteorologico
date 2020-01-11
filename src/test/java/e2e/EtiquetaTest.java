@@ -14,10 +14,6 @@ public class EtiquetaTest extends E2ETestBed {
     public ExpectedException thrown = ExpectedException.none();
 
 
-    //R6HU1
-
-
-    //R6HU2
     @Test
     public void addEtiquetaCoordenadasValidas() {
         controller.addEtiquetaCoordenadas("Casa", new Coord(-0.067382, 39.9924751));
