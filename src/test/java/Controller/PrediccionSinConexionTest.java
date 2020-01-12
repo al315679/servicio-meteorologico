@@ -1,8 +1,9 @@
-package e2e;
+package Controller;
 
 import Controller.Aplicacion;
 import Model.Coord;
 import Services.IWeather;
+import e2e.E2ETestBed;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
