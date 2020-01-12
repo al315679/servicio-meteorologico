@@ -2,6 +2,7 @@ package e2e;
 
 import Controller.Aplicacion;
 import Model.BaseDatos;
+import Model.IBaseDatos;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FavoritosTest {
 
-    private static BaseDatos db;
+    private static IBaseDatos db;
     private static Aplicacion controller;
 
     @BeforeClass

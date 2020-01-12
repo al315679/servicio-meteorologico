@@ -1,24 +1,29 @@
 package Controller;
 
-import Controller.Aplicacion;
-import Model.Prediction;
+import Model.*;
 import Services.IWeather;
-import e2e.E2ETestBed;
 import org.junit.After;
-import org.junit.Assert;
-import org.junit.Rule;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 import static org.mockito.Mockito.*;
 
-public class AplicacionPrediccionSinConexionTest extends E2ETestBed {
-    private Aplicacion controller;
+public class AplicacionPrediccionSinConexionTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    private Aplicacion controller;
+    private TreeMap<String, Prediction> predictionTreeMap;
+
+    @Before
+    public void setUp() {
+        predictionTreeMap = new TreeMap<>();
+        predictionTreeMap.put("Valencia", new Prediction("12", 0.2,
+                1, new ArrayList<>(), new City(1, "Valencia", new Coord(-0.83, 39.33), "ES")));
+        predictionTreeMap.put("39.992474, -0.067382", new Prediction("12", 0.2,
+                1, new ArrayList<>(), new City(1, "Valencia", new Coord(-0.83, 39.33), "ES")));
+    }
 
     @After
     public void tearDown() {
@@ -26,23 +31,29 @@ public class AplicacionPrediccionSinConexionTest extends E2ETestBed {
     }
 
     @Test
-    public void getPrediccionCiudadSinConexion() throws IOException {
-        IWeather mock = mock(IWeather.class);
-        when(mock.getPrediccionCiudad("Valencia")).thenReturn(null);
-        controller = new Aplicacion(mock);
-        controller.getPrediccionCiudad("Valencia");
-        verify(mock).getPrediccionCiudad(anyString());
+    public void getPrediccionCiudadSinConexion_Suc() {
+        IBaseDatos mockBD = mock(IBaseDatos.class);
+        when(mockBD.getCiudadesPrediccionBD()).thenReturn(predictionTreeMap);
+        when(mockBD.getDiasHastaHoyBusquedaCiudad("Valencia", true)).thenReturn(1);
 
+        IWeather mockAPI = mock(IWeather.class);
+        controller = new Aplicacion(mockAPI, mockBD);
+
+        controller.getPrediccionCiudadVista("Valencia");
+        verify(mockAPI, never()).getPrediccionCiudad(anyString());
     }
 
     @Test
-    public void getPrediccionCoorSinConexion() throws IOException {
-        IWeather mock = mock(IWeather.class);
-        when(mock.getPrediccionCoordenadas(39.9924751, -0.067382)).thenReturn(null);
-        controller = new Aplicacion(mock);
-        controller.getPrediccionCoordenadas(39.9924751, -0.067382);
-        verify(mock).getPrediccionCoordenadas(anyDouble(), anyDouble());
+    public void getPrediccionCoorSinConexion_Suc() {
+        IBaseDatos mockBD = mock(IBaseDatos.class);
+        when(mockBD.getCoordenadasPrediciconBD()).thenReturn(predictionTreeMap);
+        when(mockBD.getDiasHastaHoyPrediccionCor("39.992474, -0.067382", true)).thenReturn(1);
 
+        IWeather mockAPI = mock(IWeather.class);
+        controller = new Aplicacion(mockAPI, mockBD);
+
+        controller.getPrediccionCoordenadasVista(39.992474f, -0.067382f);
+        verify(mockAPI, never()).getPrediccionCoordenadas(anyDouble(), anyDouble());
     }
 
 

@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.BaseDatos;
-import Model.Coord;
-import Model.Data;
-import Model.Prediction;
+import Model.*;
 import Services.IWeather;
 import Services.OpenWeather;
 import View.InterfaceVista;
@@ -22,7 +19,7 @@ import java.util.TreeSet;
 public class Aplicacion implements Serializable {
 
     private IWeather servicio;
-    private BaseDatos baseDatos;
+    private IBaseDatos baseDatos;
 
     @SuppressWarnings("unused")
     private InterfaceVista vista;
@@ -35,6 +32,11 @@ public class Aplicacion implements Serializable {
     public Aplicacion(IWeather servicio) {
         this.servicio = servicio;
         this.baseDatos = new BaseDatos();
+    }
+
+    public Aplicacion(IWeather servicio, IBaseDatos bd) {
+        this.servicio = servicio;
+        this.baseDatos = bd;
     }
     public void setServicio(IWeather servicio) { this.servicio = servicio; }
 
@@ -141,7 +143,7 @@ public class Aplicacion implements Serializable {
         */
     }
 
-    private String getPrediccionCiudadVista(String ciudad) {
+    public String getPrediccionCiudadVista(String ciudad) {
         Prediction prediccion = null;
         Prediction prediccionGuardada = null;
         int horas=0;
@@ -208,7 +210,7 @@ public class Aplicacion implements Serializable {
          */
     }
 
-    private String getPrediccionCoordenadasVista(float latitud, float longitud) {
+    public String getPrediccionCoordenadasVista(float latitud, float longitud) {
 
         String coordenadas = latitud + ", " +longitud;
 
@@ -779,7 +781,7 @@ public class Aplicacion implements Serializable {
 
     }
 
-    public BaseDatos getDB() {
+    public IBaseDatos getDB() {
         return baseDatos;
     }
 
