@@ -16,7 +16,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class Aplicacion implements Serializable {
+public class Aplicacion implements IWeather, Serializable {
 
     private IWeather servicio;
     private IBaseDatos baseDatos;
@@ -114,33 +114,7 @@ public class Aplicacion implements Serializable {
             res += getInfoTiempo (tipo, tiempoGuardado);
         }
         return res;
-        /*
-        String resultado="";
-        try {
-            Data tiempo = servicio.getTiempoCiudad(ciudad);
 
-            if (tiempo != null) {
-                baseDatos.anadirTiempoCiudad(ciudad, tiempo);
-                baseDatos.anadirFecha(ciudad, baseDatos.getFechasBusquedaCiudadBD());
-                resultado += getInfoTiempo(tipo, tiempo);
-            } else {
-                //Compruebo si la ciudad esta en cache, si no hay conexion
-                if (baseDatos.getFechasBusquedaCiudadBD().containsKey(ciudad)) {
-                    int horas = baseDatos.getDiasHastaHoyBusquedaCiudad(ciudad, true);
-                    tiempo = baseDatos.getCiudadesActualBD().get(ciudad);
-                    resultado+="Se ha perdido la conexion con la api:"+'\n';
-                    resultado+="Se ha podido recuperar datos de la ciudad " + ciudad + " de una solicitud de hace " + horas + " horas"+'\n';
-                    resultado += getInfoTiempo(tipo, tiempo);
-                } else {
-                    resultado="Se ha perdido la conexion con la api.";
-                }
-
-            }
-        } catch (IllegalArgumentException e) {
-            return "No se ha encontrado una ciudad con el nombre: " + ciudad;
-        }
-        return resultado;
-        */
     }
 
     public String getPrediccionCiudadVista(String ciudad) {
@@ -181,33 +155,6 @@ public class Aplicacion implements Serializable {
             res += prediccionGuardada.getInformacion ( );
         }
         return res;
-        /*
-        String resultado="";
-        try {
-            Prediction prediccion = servicio.getPrediccionCiudad(ciudadCoordenada);
-
-            if (prediccion != null) {
-                baseDatos.anadirPrediccionCiudad(ciudadCoordenada, prediccion);
-                baseDatos.anadirFecha(ciudadCoordenada, baseDatos.getFechasPrediccionCiudadBD());
-                resultado="Weather prediccion " + prediccion.getInformacion();
-            } else {
-                if (baseDatos.getFechasPrediccionCiudadBD().containsKey(ciudadCoordenada)) {
-                    int horas = baseDatos.getDiasHastaHoyPrediccionCiudad(ciudadCoordenada,true);
-                    prediccion = baseDatos.getCiudadesPrediccionBD().get(ciudadCoordenada);
-                    resultado+="Se ha perdido la conexion con la api:";
-                    resultado+="Se ha podido recuperar datos de la ciudad " + ciudadCoordenada + " de una solicitud de hace " + horas + " horas";
-                    resultado+="Weather prediccion " + prediccion.getInformacion();
-                } else {
-                    resultado="Se ha perdido la conexion con la api.";
-                }
-            }
-
-        } catch (IllegalArgumentException e) {
-            return "No se ha encontrado una ciudad con el nombre: " + ciudadCoordenada;
-        }
-        return resultado;
-
-         */
     }
 
     public String getPrediccionCoordenadasVista(float latitud, float longitud) {
@@ -250,32 +197,7 @@ public class Aplicacion implements Serializable {
             res += prediccionGuardada.getInformacion ( );
         }
         return res;
-        /*
-        try {
-            Prediction prediccion = servicio.getPrediccionCoordenadas(latitud, longitud);
-            if (prediccion != null) {
-                baseDatos.anadirPrediccionCoordenadas(coordenadas, prediccion);
-                baseDatos.anadirFecha(coordenadas, baseDatos.getFechasPrediccionCoordenadaDB());
-                resultado="Weather prediccion " + prediccion.toString();
-            } else {
-                if (baseDatos.getFechasPrediccionCoordenadaDB().containsKey(coordenadas)) {
-                    int horas = baseDatos.getDiasHastaHoyPrediccionCor(coordenadas, true);
-                    prediccion = baseDatos.getCoordenadasPrediciconBD().get(coordenadas);
-                    resultado += "Se ha perdido la conexion con la api:";
-                    resultado += "Se ha podido recuperar datos de la coordenada " + coordenadas + " de una solicitud de hace " + horas + " horas";
-                    resultado += "Weather prediccion " + prediccion.getInformacion();
-                } else {
-                    resultado = "Se ha perdido la conexion con la api.";
-                }
-            }
-        } catch (Exception e) {
-            resultado = "No se ha encontrado una coordenada con el nombre: " + coordenadas;
 
-        }
-        return resultado;
-
-
-         */
     }
 
     public String getTiempoCoordenadasVista(float latitud, float longitud, String tipo) {
@@ -624,19 +546,6 @@ public class Aplicacion implements Serializable {
     }
 
 
-
-
-
-    public void imprimirTiempo(int opcion, Data tiempo) {
-        if (opcion == 1) {
-            System.out.println(tiempo.informacionBasica());
-
-        } else if (opcion == 2) {
-            System.out.println(tiempo.informacionDetallada());
-        }
-    }
-
-
     public String getInfoTiempo(String opcion, Data tiempo) {
         String s;
         if (opcion.equals("Basica")) {
@@ -649,81 +558,7 @@ public class Aplicacion implements Serializable {
     }
 
 
-    public void getTiempoCiudadesFavoritas() throws IOException {
 
-        TreeSet<String> favoritos =  baseDatos.getCiudadesFavoritas();
-
-
-        if(!favoritos.isEmpty()){
-            for(String lugar : favoritos){
-                System.out.println(lugar);
-                System.out.println(servicio.getTiempoCiudad(lugar).informacionBasica());
-
-
-            }
-        }else{
-            System.out.println("No tienes lugares favoritos");
-
-        }
-
-    }
-
-    public void getPrediccionCiudadesFavoritas() throws IOException {
-
-        TreeSet<String> favoritos =  baseDatos.getCiudadesFavoritas();
-
-
-        if(!favoritos.isEmpty()){
-            for(String lugar : favoritos){
-                System.out.println(lugar);
-                System.out.println(servicio.getPrediccionCiudad(lugar).getInformacion());
-
-            }
-        }else{
-            System.out.println("No tienes lugares favoritos");
-
-        }
-
-    }
-
-
-    public void getTiempoCoordenadasFavoritas() throws IOException {
-
-        TreeSet<String> favoritos =  baseDatos.getCoordenadasFavoritas();
-
-
-        if(!favoritos.isEmpty()){
-            for(String lugar : favoritos){
-                String [] vector = lugar.split(",");
-                System.out.println(lugar);
-                System.out.println(servicio.getTiempoCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).informacionBasica());
-
-            }
-        }else{
-            System.out.println("No tienes lugares favoritos");
-
-        }
-
-    }
-
-    public void getPrediccionCoordenadasFavoritas() throws IOException {
-
-        TreeSet<String> favoritos =  baseDatos.getCoordenadasFavoritas();
-
-
-        if(!favoritos.isEmpty()){
-            for(String lugar : favoritos){
-                String [] vector = lugar.split(",");
-                System.out.println(lugar);
-                System.out.println(servicio.getPrediccionCoordenadas(Double.parseDouble(vector[0]), Double.parseDouble(vector[1])).getInformacion());
-
-            }
-        }else{
-            System.out.println("No tienes lugares favoritos");
-
-        }
-
-    }
 
     public void addEtiquetaCoordenadas(String etiqueta, Coord coord) {
         if (verificarCoordenadas(coord))
@@ -784,44 +619,5 @@ public class Aplicacion implements Serializable {
     public IBaseDatos getDB() {
         return baseDatos;
     }
-
-
-    //SECCIÓN DE FAVORITOS
-    /*public void getFavoritos(){
-       TreeSet<String> ciudades =  baseDatos.getCiudadesFavoritas();
-
-
-        System.out.println("---------------CIUDADES---------------");
-
-
-        if(ciudades.isEmpty()){
-           System.out.println("No tienes ciudades favoritas");
-        }else{
-           for(String ciudad : ciudades){
-               System.out.println(ciudad);
-           }
-        }
-
-        System.out.println("");
-
-
-        TreeSet<String> coordenadas =  baseDatos.getCoordenadasFavoritas();
-
-
-        System.out.println("---------------COORDENADAS---------------");
-
-
-        if(coordenadas.isEmpty()){
-            System.out.println("No tienes coordenadas favoritas");
-        }else{
-            for(String coordenada : coordenadas){
-                System.out.println(coordenada);
-            }
-        }
-
-        System.out.println("");
-
-    }*/
-
 
 }
