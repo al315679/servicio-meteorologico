@@ -16,7 +16,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class Aplicacion implements IWeather, Serializable {
+public class Aplicacion implements Serializable {
 
     private IWeather servicio;
     private IBaseDatos baseDatos;
